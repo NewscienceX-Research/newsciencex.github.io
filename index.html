@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>NewScience — The Verification Infrastructure for Autonomous Science</title>
-<meta name="description" content="Agentic research infrastructure for computational biology that physically verifies scientific results instead of summarizing them." />
+<title>NewScience — The AI research agent for biology, on a foundation of verified science</title>
+<meta name="description" content="NewScience is the AI research agent that finds the strongest work, ranks it by whether it can be reproduced, and re-executes the computational claims inside papers to prove it." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Red+Hat+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -19,8 +19,12 @@
     --surface:    #ffffff;
     --surface-inv:#0d1a30;
     --line:       rgba(13,26,48,0.14);
-    --cobalt:     #1c4196;
-    --cobalt-light:#6f9be8;
+    --line-soft:  rgba(13,26,48,0.08);
+    --cobalt:     #5a75fa;
+    --cobalt-light:#a3b3ff;
+    --cobalt-50:  #d9e1ff;
+    --radius-sm:  8px;
+    --radius-md:  12px;
     --display:'Inter', system-ui, sans-serif;
     --sans:   'Inter', system-ui, sans-serif;
     --mono:   'Red Hat Mono', ui-monospace, monospace;
@@ -33,6 +37,7 @@
     -webkit-font-smoothing: antialiased;
   }
   em { font-style: normal; }
+  a { color: inherit; }
 
   .label {
     font-family: var(--mono); font-size: 11px; font-weight: 400;
@@ -53,16 +58,19 @@
   .wordmark {
     font-family: var(--display); font-weight: 600; font-size: 20px;
     letter-spacing: -0.01em; color: var(--ink); text-decoration: none;
+    display: inline-flex; align-items: center; gap: 10px;
   }
+  .brand-mark { height: 30px; width: auto; display: block; }
   .nav-right { display: flex; align-items: center; gap: 32px; }
   .nav-link {
     font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
     color: var(--ink-muted); text-decoration: none; transition: color 0.2s;
   }
   .nav-link:hover { color: var(--ink); }
+  .nav-link:focus-visible, .nav-cta:focus-visible { outline: 2px solid var(--cobalt); outline-offset: 4px; border-radius: 3px; }
   .nav-cta {
     font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
-    color: #fff; background: var(--surface-inv); text-decoration: none; padding: 11px 20px; border-radius: 2px;
+    color: #fff; background: var(--cobalt); text-decoration: none; padding: 11px 20px; border-radius: var(--radius-sm);
     transition: opacity 0.2s;
   }
   .nav-cta:hover { opacity: 0.85; }
@@ -70,10 +78,15 @@
 
   /* HERO + GRAINY GRADIENT */
   .hero { position: relative; min-height: 100vh; display: flex; align-items: center; overflow: hidden; padding-top: 80px; }
-  /* Animated hero/CTA gradient — inlined from files/ns-hero-gradient.css.
-     4 crossfading scenes of drifting blue blobs + grain. Pure CSS. */
+  /* Hero background = official brand assets: Grain-BG gradient + Line particle streams */
+  .hero-bg { position: absolute; inset: 0; z-index: 0; overflow: hidden; background: #eef1fe; pointer-events: none; }
+  .hero-bg img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+  .hero-bg-line { opacity: 0.6; mix-blend-mode: screen; }
+  /* left scrim keeps dark hero text legible over the brighter part of the gradient */
+  .hero-bg::after { content: ''; position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(100deg, rgba(255,255,255,0.62) 0%, rgba(255,255,255,0.34) 34%, rgba(255,255,255,0) 62%); }
   .ns-bg { position:absolute; inset:0; z-index:0; pointer-events:none; overflow:hidden;
-    background:linear-gradient(115deg,#e8eaec 0%,#dfe3e8 45%,#d6dde6 100%); }
+    background:linear-gradient(115deg,#ecedf6 0%,#e4e6f3 45%,#dde1f2 100%); }
   .ns-bg .ns-scene{position:absolute;inset:0;opacity:0;animation:ns-cycle 24s ease-in-out infinite}
   .ns-bg .ns-s1{animation-delay:0s}
   .ns-bg .ns-s2{animation-delay:6s}
@@ -81,9 +94,9 @@
   .ns-bg .ns-s4{animation-delay:18s}
   @keyframes ns-cycle{0%{opacity:0}4%{opacity:1}21%{opacity:1}25%{opacity:0}100%{opacity:0}}
   .ns-bg .ns-scene > i{position:absolute;border-radius:50%;filter:blur(50px);will-change:transform;display:block}
-  .ns-bg .ns-b1{background:radial-gradient(circle, rgba(28,65,150,.92), transparent 70%)}
-  .ns-bg .ns-b2{background:radial-gradient(circle, rgba(60,110,190,.72), transparent 70%)}
-  .ns-bg .ns-b3{background:radial-gradient(circle, rgba(110,160,220,.6), transparent 70%)}
+  .ns-bg .ns-b1{background:radial-gradient(circle, rgba(90,117,250,.92), transparent 70%)}
+  .ns-bg .ns-b2{background:radial-gradient(circle, rgba(124,143,250,.72), transparent 70%)}
+  .ns-bg .ns-b3{background:radial-gradient(circle, rgba(163,179,255,.6), transparent 70%)}
   @keyframes ns-dA{0%{transform:translate(0,0) scale(1)}100%{transform:translate(6vw,5vh) scale(1.1)}}
   @keyframes ns-dB{0%{transform:translate(0,0) scale(1.05)}100%{transform:translate(-7vw,-4vh) scale(.95)}}
   @keyframes ns-dC{0%{transform:translate(0,0) scale(.95)}100%{transform:translate(5vw,-6vh) scale(1.12)}}
@@ -108,73 +121,49 @@
     .ns-bg .ns-scene > i{animation:none}
   }
   .hero-inner { position: relative; z-index: 2; width: 100%; }
-  .hero-grid { display: grid; grid-template-columns: 1fr; gap: 48px; align-items: center; }
-  .hero-copy { min-width: 0; }
-  .hero-media { min-width: 0; }
-  .hero-figure {
-    width: 100%; max-width: 440px; aspect-ratio: 4 / 3;
-    background: rgba(255,255,255,0.5); backdrop-filter: blur(3px);
-    border: 1px solid var(--line); border-radius: 3px;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .hero-figure span {
-    font-family: var(--mono); font-size: 11px; font-weight: 400;
-    letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink-muted);
-  }
-  @media (min-width: 900px) {
-    .hero-grid { grid-template-columns: 1.5fr 1fr; gap: 64px; }
-    .hero-figure { margin-left: auto; }
-  }
-  .hero-top-title {
-    font-family: var(--mono); font-weight: 400; font-size: 12px;
-    letter-spacing: 0.3em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 34px;
+  .hero-eyebrow {
+    display: inline-block;
+    font-family: var(--mono); font-weight: 400; font-size: 11px;
+    letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink-soft);
+    margin-bottom: 34px;
   }
   .hero h1 {
     font-family: var(--display); font-weight: 500; font-size: clamp(40px, 6vw, 82px);
-    line-height: 1.0; letter-spacing: -0.03em; color: var(--ink); max-width: 15ch; margin-bottom: 30px;
+    line-height: 1.0; letter-spacing: -0.03em; color: var(--ink); max-width: 17ch; margin-bottom: 30px;
   }
-  .hero h1 em { font-weight: 500; }
+  .hero h1 em { font-weight: 500; color: var(--cobalt); }
   .hero-lede {
-    font-family: var(--sans); font-weight: 300; font-size: clamp(15px, 1.4vw, 18px);
-    line-height: 1.7; color: var(--ink-soft); max-width: 52ch; margin-bottom: 40px;
+    font-family: var(--sans); font-weight: 300; font-size: clamp(16px, 1.5vw, 19px);
+    line-height: 1.7; color: var(--ink-soft); max-width: 56ch; margin-bottom: 40px;
   }
-  .hero-meta {
-    font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; color: var(--ink-soft);
-    display: flex; gap: 28px; flex-wrap: wrap; align-items: center; margin-bottom: 44px;
-  }
-  .hero-meta span { display: inline-flex; align-items: center; gap: 9px; }
-  .hero-meta .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--cobalt); }
-  .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 44px; }
   .btn-primary {
     font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
-    background: #0d1a30; color: #fff; text-decoration: none; padding: 15px 28px; border-radius: 2px; transition: opacity 0.2s; display: inline-block;
+    background: var(--cobalt); color: #fff; text-decoration: none; padding: 15px 28px; border-radius: var(--radius-sm); transition: opacity 0.2s; display: inline-block;
     border: none; cursor: pointer;
   }
   .btn-primary:hover { opacity: 0.86; }
   .btn-ghost {
     font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
-    background: transparent; color: #0d1a30; text-decoration: none; padding: 15px 28px; border-radius: 2px;
+    background: transparent; color: #0d1a30; text-decoration: none; padding: 15px 28px; border-radius: var(--radius-sm);
     border: 1px solid rgba(13,26,48,0.3); transition: background 0.2s; display: inline-block;
   }
   .btn-ghost:hover { background: rgba(13,26,48,0.05); }
+  .btn-primary:focus-visible, .btn-ghost:focus-visible { outline: 2px solid var(--cobalt); outline-offset: 3px; }
 
   /* SECTIONS */
   section { padding: 120px 0; }
   .rule { border-top: 1px solid var(--line); }
 
-  /* embedded flow canvas (flow-canvas.html provides its own padding) */
-  .flow-section { padding: 0; }
-  .flow-frame { display: block; width: 100%; border: 0; overflow: hidden; min-height: 0; }
-  .is-hidden { display: none; }
-
   .statement { background: var(--surface); color: var(--ink); padding: 120px 0; text-align: center; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .statement .label { display: block; margin-bottom: 28px; }
   .statement p {
     font-family: var(--display); font-weight: 500;
-    font-size: clamp(32px, 5vw, 64px); line-height: 1.06; letter-spacing: -0.025em; max-width: 18ch; margin: 0 auto;
+    font-size: clamp(30px, 4.4vw, 56px); line-height: 1.1; letter-spacing: -0.025em; max-width: 22ch; margin: 0 auto;
   }
+  .statement p em { color: var(--cobalt); font-weight: 500; }
 
   .colset { display: grid; grid-template-columns: 200px 1fr; gap: 56px; }
-  .colset + .colset { margin-top: 80px; padding-top: 80px; border-top: 1px solid var(--line); }
   .colset h2 {
     font-family: var(--display); font-weight: 500; font-size: clamp(30px, 3.6vw, 48px);
     line-height: 1.05; letter-spacing: -0.025em; margin-bottom: 24px; max-width: 22ch;
@@ -190,69 +179,159 @@
     font-family: var(--display); font-weight: 500; font-size: clamp(34px, 4.8vw, 62px);
     line-height: 1.02; letter-spacing: -0.028em; max-width: 20ch; margin: 0 auto;
   }
+  .sec-head h2 em { color: var(--cobalt); font-weight: 500; }
   .sec-head p { margin: 22px auto 0; max-width: 56ch; color: var(--ink-soft); font-weight: 300; }
 
-  .systems { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
-  .system { position: relative; background: var(--surface); padding: 44px 40px; }
-  .system > * { position: relative; z-index: 1; }
-  /* fixed (non-animated) blue/white gradient on hover — a different structure per card */
-  .system::before { content: ''; position: absolute; inset: 0; z-index: 0; opacity: 0;
+  /* THREE-RUNG STACK (product feature pillars) */
+  .rungs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--radius-md); overflow: hidden; }
+  .rung { position: relative; background: var(--surface); padding: 44px 38px; display: flex; flex-direction: column; }
+  .rung > * { position: relative; z-index: 1; }
+  .rung::before { content: ''; position: absolute; inset: 0; z-index: 0; opacity: 0;
     transition: opacity 0.35s ease; pointer-events: none; background: var(--card-grad); }
-  .system:hover::before, .system.has-visual:focus-visible::before { opacity: 1; }
-  .system:nth-child(1) { --card-grad:
-    radial-gradient(120% 130% at 0% 45%, rgba(28,65,150,0.34) 0%, rgba(60,110,190,0.14) 38%, transparent 72%),
-    linear-gradient(120deg, #f3f6fb 0%, #e8eff8 100%); }
-  .system:nth-child(2) { --card-grad:
-    radial-gradient(115% 130% at 100% 0%, rgba(28,65,150,0.34) 0%, rgba(90,140,210,0.14) 42%, transparent 74%),
-    linear-gradient(205deg, #f3f6fb 0%, #e8eff8 100%); }
-  .system:nth-child(3) { --card-grad:
-    radial-gradient(130% 115% at 50% 100%, rgba(28,65,150,0.30) 0%, rgba(110,160,220,0.16) 46%, transparent 78%),
-    linear-gradient(150deg, #f3f6fb 0%, #e7edf7 100%); }
-  .system:nth-child(4) { --card-grad:
-    radial-gradient(110% 120% at 100% 100%, rgba(28,65,150,0.34) 0%, transparent 66%),
-    radial-gradient(85% 85% at 0% 0%, rgba(110,160,220,0.18) 0%, transparent 58%),
-    linear-gradient(135deg, #f4f7fb 0%, #e8eef7 100%); }
-  .system .sys-no { font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; color: var(--cobalt); }
-  .system h3 { font-family: var(--display); font-weight: 500; font-size: clamp(24px, 2.2vw, 30px); letter-spacing: -0.02em; margin: 16px 0 6px; }
-  .system .sys-tag { font-family: var(--display); font-weight: 400; font-size: 17px; color: var(--ink-muted); margin-bottom: 18px; }
-  .system p { font-size: 15px; line-height: 1.75; color: var(--ink-soft); font-weight: 300; }
-  .system.has-visual { cursor: pointer; }
-  .system.has-visual:focus-visible { outline: 2px solid var(--cobalt); outline-offset: 3px; }
-  .sys-open { display: inline-flex; align-items: center; gap: 8px; margin-top: 22px;
-    font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
-    color: var(--cobalt); }
-  .sys-open svg { width: 13px; height: 13px; transition: transform 0.3s; }
-  .system.has-visual[aria-expanded="true"] .sys-open svg { transform: rotate(180deg); }
+  .rung:hover::before { opacity: 1; }
+  .rung:nth-child(1) { --card-grad:
+    radial-gradient(120% 130% at 0% 45%, rgba(90,117,250,0.30) 0%, rgba(124,143,250,0.12) 38%, transparent 72%),
+    linear-gradient(120deg, #eff2fd 0%, #e6ebfc 100%); }
+  .rung:nth-child(2) { --card-grad:
+    radial-gradient(130% 115% at 50% 0%, rgba(90,117,250,0.30) 0%, rgba(140,156,252,0.12) 42%, transparent 74%),
+    linear-gradient(180deg, #eff2fd 0%, #e6ebfc 100%); }
+  .rung:nth-child(3) { --card-grad:
+    radial-gradient(110% 120% at 100% 100%, rgba(90,117,250,0.30) 0%, transparent 66%),
+    radial-gradient(85% 85% at 0% 0%, rgba(163,179,255,0.16) 0%, transparent 58%),
+    linear-gradient(135deg, #eff2fd 0%, #e6ebfc 100%); }
+  .rung .r-no { font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; color: var(--cobalt); }
+  .rung .r-icon { margin: 20px 0 22px; }
+  .rung .r-icon svg { display: block; width: 40px; height: 40px; }
+  .rung h3 { font-family: var(--display); font-weight: 500; font-size: clamp(22px, 2vw, 27px); letter-spacing: -0.02em; margin-bottom: 8px; }
+  .rung .r-tag { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 18px; }
+  .rung p { font-size: 15px; line-height: 1.75; color: var(--ink-soft); font-weight: 300; }
+  .rung .r-role { margin-top: auto; padding-top: 22px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; color: var(--ink); }
+  .rung .r-role span { color: var(--cobalt); }
 
+  /* HOW YOU USE IT (outcomes) */
   .outcomes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px; }
   .outcome .o-no { font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; color: var(--cobalt); }
-  .outcome h4 { font-family: var(--display); font-weight: 500; font-size: clamp(20px, 2vw, 26px); margin: 14px 0 8px; letter-spacing: -0.02em; }
+  .outcome h4 { font-family: var(--display); font-weight: 500; font-size: clamp(20px, 2vw, 25px); margin: 14px 0 10px; letter-spacing: -0.02em; }
   .outcome p { font-size: 14.5px; color: var(--ink-soft); line-height: 1.7; font-weight: 300; }
+  .outcome .o-price { display: inline-block; margin-top: 16px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; color: var(--ink-muted); border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px; }
 
-  .aud { border-top: 1px solid var(--line); }
-  .aud-row { display: grid; grid-template-columns: 52px minmax(0,1fr) minmax(0,1.05fr); gap: 40px; align-items: start; padding: 36px 0; border-bottom: 1px solid var(--line); }
-  .aud-row .a-no { font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; color: var(--cobalt); padding-top: 7px; }
-  .aud-row .a-name { font-family: var(--display); font-weight: 500; font-size: clamp(22px, 2.3vw, 30px); letter-spacing: -0.02em; line-height: 1.12; margin-bottom: 12px; }
-  .aud-row .a-for { font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); line-height: 1.5; }
-  .aud-row .a-desc { font-size: 15px; color: var(--ink-soft); font-weight: 300; line-height: 1.7; }
-  @media (max-width: 760px) { .aud-row { grid-template-columns: 1fr; gap: 10px; padding: 28px 0; } .aud-row .a-no { padding-top: 0; } }
+  /* DOMAIN TABS (Claude-Science-style) */
+  .domains-grid { display: grid; grid-template-columns: 260px 1fr; gap: 56px; align-items: start; }
+  .dom-tabs { display: flex; flex-direction: column; gap: 4px; border-left: 1px solid var(--line); }
+  .dom-tab { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 16px; width: 100%;
+    background: none; border: none; cursor: pointer; text-align: left; padding: 16px 20px;
+    font-family: var(--sans); font-weight: 400; font-size: 16px; color: var(--ink-muted);
+    transition: color 0.2s, background 0.2s; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+  .dom-tab::before { content: ''; position: absolute; left: -1px; top: 0; bottom: 0; width: 2px; background: var(--cobalt); transform: scaleY(0); transition: transform 0.25s ease; }
+  .dom-tab:hover { color: var(--ink); background: rgba(13,26,48,0.03); }
+  .dom-tab[aria-selected="true"] { color: var(--ink); font-weight: 500; }
+  .dom-tab[aria-selected="true"]::before { transform: scaleY(1); }
+  .dom-tab:focus-visible { outline: 2px solid var(--cobalt); outline-offset: -2px; }
+  .dom-panel { display: none; }
+  .dom-panel.active { display: block; animation: domfade 0.4s ease; }
+  @keyframes domfade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .dom-panel.active { animation: none; } }
+  .dom-panel h3 { font-family: var(--display); font-weight: 500; font-size: clamp(26px, 3vw, 38px); letter-spacing: -0.025em; line-height: 1.08; margin-bottom: 18px; max-width: 20ch; }
+  .dom-panel p { font-size: 16px; line-height: 1.75; color: var(--ink-soft); font-weight: 300; max-width: 58ch; }
+  .dom-panel p + p { margin-top: 16px; }
+  .dom-viz { margin-top: 34px; border: 1px solid var(--line); border-radius: var(--radius-md); overflow: hidden;
+    background: linear-gradient(135deg,#f4f6fe 0%, #eaeefb 100%); padding: 34px 36px; }
+  .dom-viz svg { display: block; width: 100%; height: auto; }
+  .dviz-cap { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); margin-top: 18px; }
 
-  .closing { position: relative; overflow: hidden; padding: 0; }
-  .closing .ns-bg { z-index: 0; }
-  .closing-inner { position: relative; z-index: 2; text-align: center; padding: 150px 40px; }
-  .closing h2 {
-    font-family: var(--display); font-weight: 500; font-size: clamp(38px, 5.4vw, 74px);
-    line-height: 1.0; letter-spacing: -0.03em; color: var(--ink); max-width: 20ch; margin: 0 auto 18px;
+  /* PUBLICATIONS & PRESS — small, list-style teaser linking out to paper pages */
+  .pubs-head { margin-bottom: 52px; }
+  .pubs-head .label { display: block; margin-bottom: 20px; }
+  .pubs-head h2 {
+    font-family: var(--display); font-weight: 500; font-size: clamp(30px, 3.6vw, 48px);
+    line-height: 1.08; letter-spacing: -0.025em; max-width: 16ch;
   }
-  .closing-sub { max-width: 52ch; margin: 0 auto 38px; color: var(--ink-soft);
-    font-weight: 300; font-size: clamp(16px, 1.6vw, 20px); line-height: 1.6; }
+  .pubs-head h2 em { color: var(--cobalt); font-weight: 500; }
+  .pubs-list { border-top: 1px solid var(--line); }
+  .pub-row {
+    display: grid; grid-template-columns: 150px 1fr 22px; gap: 32px; align-items: center;
+    padding: 30px 0; border-bottom: 1px solid var(--line);
+    text-decoration: none; color: inherit; transition: background 0.25s;
+  }
+  .pub-row:hover { background: rgba(90,117,250,0.03); }
+  .pub-row:hover .pub-arrow { transform: translate(3px, -3px); color: var(--cobalt); }
+  .pub-row:focus-visible { outline: 2px solid var(--cobalt); outline-offset: -2px; }
+  .pub-tag { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-muted); }
+  .pub-main h3 { font-family: var(--display); font-weight: 500; font-size: 19px; letter-spacing: -0.01em; color: var(--ink); margin-bottom: 8px; line-height: 1.3; }
+  .pub-main p { font-size: 14.5px; color: var(--ink-soft); font-weight: 300; line-height: 1.6; margin: 0; }
+  .pub-arrow { display: flex; align-items: center; justify-content: center; width: 22px; height: 22px; color: var(--ink-muted); transition: transform 0.25s, color 0.25s; }
+  .pub-arrow svg { width: 18px; height: 18px; display: block; }
+  @media (max-width: 640px) {
+    .pub-row { grid-template-columns: 1fr 22px; grid-template-areas: "tag arrow" "main arrow"; row-gap: 8px; }
+    .pub-tag { grid-area: tag; }
+    .pub-main { grid-area: main; }
+    .pub-arrow { grid-area: arrow; }
+  }
+
+  /* CONNECTORS */
+  .conn-band { padding: 100px 0; }
+  .conn-card {
+    display: grid; grid-template-columns: 1fr 1fr; border-radius: var(--radius-md);
+    overflow: hidden; border: 1px solid var(--line);
+  }
+  .conn-logos {
+    background: linear-gradient(135deg,#f0f2f8 0%,#e8eaf4 100%);
+    padding: 48px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+    align-content: center;
+  }
+  .conn-logo {
+    width: 64px; height: 64px; border-radius: 14px; background: #fff;
+    box-shadow: 0 1px 4px rgba(13,26,48,0.08); display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .conn-logo img { width: 40px; height: 40px; object-fit: contain; display: block; }
+  .conn-copy {
+    padding: 56px 48px; display: flex; flex-direction: column; justify-content: center;
+  }
+  .conn-copy h2 {
+    font-family: var(--display); font-weight: 500; font-size: clamp(24px, 2.6vw, 32px);
+    letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 16px;
+  }
+  .conn-copy p {
+    font-size: 16px; line-height: 1.7; color: var(--ink-soft); font-weight: 300; max-width: 42ch; margin-bottom: 28px;
+  }
+  .conn-link {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ink); text-decoration: none; border: 1px solid var(--line); border-radius: var(--radius-sm);
+    padding: 12px 22px; display: inline-block; transition: border-color 0.2s, background 0.2s;
+    align-self: flex-start;
+  }
+  .conn-link:hover { border-color: var(--cobalt); background: rgba(90,117,250,0.04); }
+  .conn-link:focus-visible { outline: 2px solid var(--cobalt); outline-offset: 3px; }
+  .conn-soon {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ink-muted); border: 1px solid var(--line); border-radius: var(--radius-sm);
+    padding: 10px 20px; display: inline-block; align-self: flex-start;
+  }
+  @media (max-width: 760px) {
+    .conn-card { grid-template-columns: 1fr; }
+    .conn-logos { padding: 36px 32px; grid-template-columns: repeat(3, 1fr); justify-items: center; }
+    .conn-copy { padding: 36px 32px; }
+  }
+
+  .closing { position: relative; overflow: hidden; padding: 0;
+    background: url('hero-grain.jpg') center/cover no-repeat; }
+  .closing-inner { position: relative; z-index: 2; text-align: center; padding: 150px 40px; }
+  .closing .label { display: block; margin-bottom: 26px; }
+  .closing h2 {
+    font-family: var(--display); font-weight: 300; font-size: clamp(26px, 3.2vw, 42px);
+    line-height: 1.2; letter-spacing: -0.02em; color: var(--ink); max-width: 32ch; margin: 0 auto 28px;
+  }
+  .closing h2 em { color: var(--cobalt); font-weight: 500; }
 
   footer { background: var(--surface); color: var(--ink-muted); padding: 80px 0 40px; border-top: 1px solid var(--line); }
   .foot-grid { display: flex; justify-content: space-between; align-items: flex-start; gap: 40px; flex-wrap: wrap; margin-bottom: 56px; }
-  .foot-word { font-family: var(--display); font-weight: 600; font-size: 20px; letter-spacing: -0.01em; color: var(--ink); }
+  .foot-word { font-family: var(--display); font-weight: 600; font-size: 20px; letter-spacing: -0.01em; color: var(--ink); display: inline-flex; align-items: center; gap: 10px; }
+  .foot-word img { height: 26px; width: auto; }
   .foot-links { display: flex; gap: 40px; flex-wrap: wrap; align-items: center; }
   .foot-links a { font-family: var(--mono); font-size: 12px; letter-spacing: 0.05em; color: var(--ink-soft); text-decoration: none; transition: color 0.2s; }
   .foot-links a:hover { color: var(--ink); }
+  .foot-links a:focus-visible { outline: 2px solid var(--cobalt); outline-offset: 4px; border-radius: 3px; }
   .foot-bottom { border-top: 1px solid var(--line); padding-top: 28px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
   .foot-bottom span { font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; color: var(--ink-muted); }
 
@@ -261,7 +340,7 @@
   .modal.open { display: block; }
   .modal-overlay { position: absolute; inset: 0; background: rgba(13,26,48,0.55); backdrop-filter: blur(4px); }
   .modal-card { position: relative; z-index: 1; width: min(560px, calc(100% - 32px)); max-height: calc(100vh - 64px);
-    overflow-y: auto; margin: 32px auto; background: var(--surface); border: 1px solid var(--line); border-radius: 6px;
+    overflow-y: auto; margin: 32px auto; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-md);
     padding: 40px; box-shadow: 0 40px 90px -30px rgba(13,26,48,0.55); }
   .modal-close { position: absolute; top: 18px; right: 20px; background: none; border: none; cursor: pointer;
     font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-muted); transition: color 0.2s; }
@@ -271,39 +350,29 @@
     letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 10px; max-width: 18ch; }
   .modal-sub { color: var(--ink-soft); font-weight: 300; font-size: 15px; line-height: 1.6; margin-bottom: 28px; }
   .modal-form { display: flex; flex-direction: column; gap: 18px; }
+  .modal-form[hidden], .waitlist-form[hidden] { display: none; }
   .field { display: block; }
   .field > span { display: block; font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
     text-transform: uppercase; color: var(--ink-muted); margin-bottom: 8px; }
-  .modal-form input, .modal-form textarea { font-family: var(--sans); font-size: 15px; font-weight: 300; color: var(--ink);
-    background: #fff; border: 1px solid var(--line); border-radius: 3px; padding: 12px 14px; width: 100%;
+  .modal-form input, .modal-form textarea, .modal-form select { font-family: var(--sans); font-size: 15px; font-weight: 300; color: var(--ink);
+    background: #fff; border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 12px 14px; width: 100%;
     transition: border-color 0.2s, box-shadow 0.2s; }
   .modal-form textarea { resize: vertical; min-height: 96px; line-height: 1.6; }
   .modal-form input::placeholder, .modal-form textarea::placeholder { color: var(--ink-muted); opacity: 0.7; }
-  .modal-form input:focus, .modal-form textarea:focus { outline: none; border-color: var(--cobalt); box-shadow: 0 0 0 3px rgba(28,65,150,0.12); }
-  .modal-form fieldset { border: none; }
-  .modal-form legend { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
-    color: var(--ink-muted); margin-bottom: 10px; }
-  .modal-form legend span { text-transform: none; letter-spacing: 0; opacity: 0.8; }
-  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
-  .chip { position: relative; display: inline-flex; align-items: center; cursor: pointer; margin: 0;
-    font-family: var(--mono); font-size: 11px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-soft);
-    background: #fff; border: 1px solid var(--line); border-radius: 2px; padding: 9px 13px;
-    transition: background 0.2s, color 0.2s, border-color 0.2s; }
-  .chip input { position: absolute; opacity: 0; width: 0; height: 0; }
-  .chip:hover { border-color: var(--ink-muted); }
-  .chip:has(input:checked) { background: var(--surface-inv); color: #fff; border-color: var(--surface-inv); }
-  .chip:has(input:focus-visible) { outline: 2px solid var(--cobalt); outline-offset: 2px; }
-  .chips-error { font-family: var(--mono); font-size: 11px; color: var(--red, #a23a2e); margin-top: 9px; }
+  .modal-form input:focus, .modal-form textarea:focus, .modal-form select:focus { outline: none; border-color: var(--cobalt); box-shadow: 0 0 0 3px rgba(90,117,250,0.12); }
   .modal-submit { align-self: flex-start; margin-top: 4px; }
   .modal-success { text-align: center; padding: 8px 0 4px; }
   .modal-success h3 { font-family: var(--display); font-weight: 500; font-size: 24px; letter-spacing: -0.02em; margin-bottom: 10px; }
   .modal-success p { color: var(--ink-soft); font-weight: 300; font-size: 15px; line-height: 1.6; }
   @media (max-width: 760px) { .modal-card { padding: 30px 20px; margin: 16px auto; } }
 
-  /* anchor targets clear the fixed nav */
+  /* WAITLIST — small popup, email only */
+  .modal-card-sm { width: min(400px, calc(100% - 32px)); padding: 36px; }
+  .waitlist-form { display: flex; flex-direction: column; gap: 18px; }
+
   :target { scroll-margin-top: 90px; }
 
-  /* nav menu button + Document Index dropdown (anchors to page sections) */
+  /* nav menu button + Document Index dropdown */
   .nav-menu-btn { display: inline-flex; align-items: center; gap: 9px; cursor: pointer;
     font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
     color: var(--ink-muted); background: none; border: none; padding: 6px 0; transition: color 0.2s; }
@@ -311,7 +380,7 @@
   .nav-menu-btn svg { display: block; }
   .nav-menu-btn:focus-visible { outline: 2px solid var(--cobalt); outline-offset: 3px; }
   .doc-index { position: fixed; top: 78px; right: 40px; z-index: 40; width: 300px;
-    background: var(--surface); border: 1px solid var(--line); border-radius: 6px;
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-md);
     box-shadow: 0 30px 70px -28px rgba(13,26,48,0.5); padding: 8px; }
   .doc-index[hidden] { display: none; }
   .doc-index-top { display: flex; align-items: center; justify-content: space-between; padding: 12px 14px 14px;
@@ -319,18 +388,19 @@
     font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-muted); }
   .doc-index-close { background: none; border: none; cursor: pointer; font-size: 18px; line-height: 1; color: var(--ink-muted); transition: color 0.2s; }
   .doc-index-close:hover { color: var(--ink); }
-  .doc-index-list a { display: flex; align-items: center; gap: 16px; padding: 11px 14px; border-radius: 3px; text-decoration: none;
+  .doc-index-list a { display: flex; align-items: center; gap: 16px; padding: 11px 14px; border-radius: var(--radius-sm); text-decoration: none;
     font-family: var(--sans); font-weight: 400; font-size: 15px; color: var(--ink); transition: background 0.2s, color 0.2s; }
   .doc-index-list a:hover { background: rgba(13,26,48,0.05); }
+  .doc-index-list a:focus-visible { outline: 2px solid var(--cobalt); outline-offset: -2px; }
   .doc-index-list .di-no { font-family: var(--mono); font-size: 11px; color: var(--ink-muted); min-width: 16px; }
   .doc-index-list .di-cta { margin-top: 6px; border-top: 1px solid var(--line); color: var(--cobalt); font-weight: 500; }
   .doc-index-list .di-cta .di-no { color: var(--cobalt); }
   @media (max-width: 760px) { .doc-index { right: 16px; left: 16px; width: auto; top: 68px; } }
 
-  /* CHALLENGE — mecka-style 3 columns, synced to brand tokens */
+  /* PROBLEM — 3 columns with SVG illustrations */
   .nsc-challenge {
     --nsc-paper:#ffffff; --nsc-ink:#0d1a30; --nsc-ink-soft:#2a4068; --nsc-ink-mute:#5a6b86;
-    --nsc-line:rgba(13,26,48,0.14); --nsc-cobalt:#1c4196;
+    --nsc-line:rgba(13,26,48,0.14); --nsc-cobalt:#5a75fa;
     --nsc-sans:'Inter',system-ui,sans-serif; --nsc-mono:'Red Hat Mono',ui-monospace,monospace;
     background: var(--nsc-paper); color: var(--nsc-ink); font-family: var(--nsc-sans);
     font-weight: 300; padding: 120px 40px; -webkit-font-smoothing: antialiased;
@@ -340,7 +410,8 @@
   .nsc-head { font-family: var(--nsc-mono); font-size: 11px; letter-spacing: 0.28em;
     text-transform: uppercase; color: var(--nsc-ink-mute); margin-bottom: 28px; }
   .nsc-h2 { font-family: var(--nsc-sans); font-weight: 500; font-size: clamp(32px, 4.6vw, 52px);
-    line-height: 1.06; letter-spacing: -0.025em; max-width: 16ch; margin: 0 0 54px; }
+    line-height: 1.06; letter-spacing: -0.025em; max-width: 18ch; margin: 0 0 54px; }
+  .nsc-h2 em { color: var(--nsc-cobalt); font-weight: 500; }
   .nsc-grid { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--nsc-line); }
   .nsc-col { padding: 32px 30px 34px; border-right: 1px solid var(--nsc-line); display: flex; flex-direction: column; }
   .nsc-col:first-child { padding-left: 0; }
@@ -369,12 +440,38 @@
   .js-animations .reveal.in { opacity: 1; transform: none; }
   @media (prefers-reduced-motion: reduce) { .js-animations .reveal { opacity: 1 !important; transform: none !important; transition: none; } }
 
+  /* HEADING WORD-REVEAL — masked, staggered slide-up on scroll (section headings only) */
+  .word-mask { display: inline-block; overflow: hidden; vertical-align: bottom; }
+  .word-inner { display: inline-block; }
+  .js-animations .heading-split .word-inner {
+    transform: translateY(112%);
+    transition: transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .js-animations .heading-split.in .word-inner { transform: translateY(0); }
+  @media (prefers-reduced-motion: reduce) {
+    .js-animations .heading-split .word-inner { transform: none; transition: none; }
+  }
+
+  @media (max-width: 900px) {
+    .rungs { grid-template-columns: 1fr; }
+    .proof-stats { grid-template-columns: repeat(2, 1fr); }
+    .domains-grid { grid-template-columns: 1fr; gap: 32px; }
+    .dom-tabs { flex-direction: row; overflow-x: auto; border-left: none; border-bottom: 1px solid var(--line); padding-bottom: 2px; }
+    .dom-tab { border-radius: var(--radius-sm) var(--radius-sm) 0 0; white-space: nowrap; }
+    .dom-tab::before { left: 0; right: 0; top: auto; bottom: -1px; width: auto; height: 2px; transform: scaleX(0); }
+    .dom-tab[aria-selected="true"]::before { transform: scaleX(1); }
+  }
   @media (max-width: 760px) {
     .wrap { padding: 0 24px; }
-    .nav { padding: 22px 24px; }
+    .nav { padding: 20px 24px; }
+    .nav-right { gap: 16px; }
+    .nav-menu-btn span { display: none; }
+    .nav-cta { padding: 10px 16px; }
+    .brand-mark { height: 26px; }
+    .wordmark { font-size: 18px; gap: 8px; }
     .colset { grid-template-columns: 1fr; gap: 16px; }
-    .systems { grid-template-columns: 1fr; }
     .outcomes { grid-template-columns: 1fr; gap: 36px; }
+    .proof-stats { grid-template-columns: 1fr; }
     section { padding: 80px 0; }
   }
 </style>
@@ -383,8 +480,10 @@
 <body>
 
 <nav class="nav">
-  <a class="wordmark" href="#top">NewScience</a>
+  <a class="wordmark" href="#top"><img class="brand-mark" src="ns-mark.png" alt="" /> NewScience</a>
   <div class="nav-right">
+    <a class="nav-link nav-links-hide" href="use-cases.html">Use cases</a>
+    <a class="nav-link nav-links-hide" href="#proof">Publications</a>
     <button class="nav-menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="docIndex">
       <span>Menu</span>
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
@@ -395,52 +494,50 @@
 
 <div class="doc-index" id="docIndex" hidden>
   <div class="doc-index-top">
-    <span>Document Index</span>
+    <span>Contents</span>
     <button class="doc-index-close" type="button" data-close-menu aria-label="Close menu">&times;</button>
   </div>
   <div class="doc-index-list">
     <a href="#top"><span class="di-no">01</span><span>Overview</span></a>
-    <a href="#challenge"><span class="di-no">02</span><span>The Challenge</span></a>
-    <a href="#approach"><span class="di-no">03</span><span>The Approach</span></a>
-    <a href="#platform"><span class="di-no">04</span><span>The Platform</span></a>
-    <a href="#use-cases"><span class="di-no">05</span><span>Use Cases</span></a>
-    <a href="#join" class="di-cta"><span class="di-no">&rarr;</span><span>Join us</span></a>
+    <a href="#problem"><span class="di-no">02</span><span>The problem</span></a>
+    <a href="#product"><span class="di-no">03</span><span>The product</span></a>
+    <a href="#domains"><span class="di-no">04</span><span>Where it runs</span></a>
+    <a href="#proof"><span class="di-no">05</span><span>Publications</span></a>
+    <a href="use-cases.html"><span class="di-no">06</span><span>Use cases</span></a>
+    <a href="#join" class="di-cta"><span class="di-no">&rarr;</span><span>Request access</span></a>
   </div>
 </div>
 
 <header class="hero" id="top">
-  <div class="ns-bg" aria-hidden="true">
-    <div class="ns-scene ns-s1"><i class="ns-b1"></i><i class="ns-b2"></i><i class="ns-b3"></i></div>
-    <div class="ns-scene ns-s2"><i class="ns-b1"></i><i class="ns-b2"></i><i class="ns-b3"></i></div>
-    <div class="ns-scene ns-s3"><i class="ns-b1"></i><i class="ns-b2"></i><i class="ns-b3"></i></div>
-    <div class="ns-scene ns-s4"><i class="ns-b1"></i><i class="ns-b2"></i><i class="ns-b3"></i></div>
-    <div class="ns-grain"></div>
+  <div class="hero-bg" aria-hidden="true">
+    <img class="hero-bg-grain" src="hero-grain.jpg" alt="" fetchpriority="high" />
+    <img class="hero-bg-line" src="hero-line.png" alt="" loading="lazy" />
   </div>
   <div class="hero-inner">
-    <div class="wrap hero-grid">
-      <div class="hero-copy">
-        <h1>Accelerate human progress faster with distributed research</h1>
-        <p class="hero-lede">NewScience is an agentic research infrastructure for computational biology that physically verifies scientific results. AI agents ingest papers from trusted journals, translate their parameters into simulation commands, run them on a distributed compute network, and score how reproducible each result actually is — producing a cryptographically signed, traceable record of every finding.</p>
-        <div class="hero-btns">
-          <a class="btn-primary" href="#" data-open-join>Request access</a>
-          <a class="btn-ghost" href="how-it-works.html">See how it works</a>
-        </div>
+    <div class="wrap">
+      <span class="hero-eyebrow">NewScience</span>
+      <h1>Your AI research <em>copilot</em> for biology.</h1>
+      <p class="hero-lede">NewScience is the AI research agent that helps you identify high-quality hypotheses through built-in benchmarks, reproduce all the important metrics, and let you build meaningful science faster.</p>
+      <div class="hero-btns">
+        <a class="btn-primary" href="#" data-open-waitlist>Join waitlist</a>
+        <a class="btn-ghost" href="blog.html">Read our blog</a>
       </div>
     </div>
   </div>
 </header>
 
-<section class="nsc-challenge" id="challenge">
+<!-- THE PROBLEM -->
+<section class="nsc-challenge" id="problem">
   <div class="nsc-wrap">
-    <div class="nsc-head">The challenge</div>
-    <h2 class="nsc-h2">AI generates science faster than anyone can verify it.</h2>
+    <div class="nsc-head">The problem</div>
+    <h2 class="nsc-h2 heading-split">AI produces science faster than any lab can <em>validate</em> it.</h2>
 
     <div class="nsc-grid">
 
       <div class="nsc-col">
-        <div class="nsc-tag">( Challenge 01 )</div>
-        <h3>Most results are never reproduced.</h3>
-        <p>Folding predictions, docking scores, and benchmarks circulate as fact before anyone re-runs them — programs get built on foundations no one checked.</p>
+        <div class="nsc-tag">( Problem 01 )</div>
+        <h3>Output outpaces validation.</h3>
+        <p>AI systems propose molecules, predict structures, and generate benchmark claims faster than any review process can keep up. Unverified machine output doesn&rsquo;t reduce noise — it multiplies it.</p>
         <div class="nsc-illo">
           <svg viewBox="0 0 300 70" width="100%" preserveAspectRatio="xMinYMid meet">
             <g class="nsc-ln-soft">
@@ -458,9 +555,9 @@
       </div>
 
       <div class="nsc-col">
-        <div class="nsc-tag">( Challenge 02 )</div>
-        <h3>AI summarizes, but doesn&rsquo;t verify.</h3>
-        <p>Most tools read the PDF and trust it. Summarizing unverified work faster doesn&rsquo;t make it true — it just multiplies the noise.</p>
+        <div class="nsc-tag">( Problem 02 )</div>
+        <h3>Papers report results no one re-runs.</h3>
+        <p>A headline claim is published without the parameters needed to reproduce it, and almost never independently re-executed. The reproducibility crisis is a verification gap at the level of the single claim.</p>
         <div class="nsc-illo">
           <svg viewBox="0 0 300 70" width="100%" preserveAspectRatio="xMinYMid meet">
             <rect class="nsc-doc" x="2" y="12" width="40" height="48" rx="2.5"/>
@@ -473,16 +570,16 @@
               <line x1="256" y1="22" x2="298" y2="22"/><line x1="256" y1="31" x2="298" y2="31"/>
               <line x1="256" y1="40" x2="290" y2="40"/><line x1="256" y1="49" x2="282" y2="49"/>
             </g>
-            <defs><marker id="nsc-a2" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#1c4196"/></marker></defs>
+            <defs><marker id="nsc-a2" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#5a75fa"/></marker></defs>
           </svg>
           <div class="nsc-cap">PDF → Summary · run skipped</div>
         </div>
       </div>
 
       <div class="nsc-col">
-        <div class="nsc-tag">( Challenge 03 )</div>
-        <h3>There&rsquo;s no trail you can trust.</h3>
-        <p>Even when a result is real, nothing tells you so. No score, no provenance, no signature — just a claim and the hope that it replicates.</p>
+        <div class="nsc-tag">( Problem 03 )</div>
+        <h3>Trust runs on the wrong signal.</h3>
+        <p>Reputation still rests on citations, journal prestige, and recency — proxies for attention, not validity. Capital follows the most confident narrative rather than the soundest evidence, and a wrong read is expensive.</p>
         <div class="nsc-illo">
           <svg viewBox="0 0 300 70" width="100%" preserveAspectRatio="xMinYMid meet">
             <circle class="nsc-ln" cx="22" cy="32" r="18"/>
@@ -503,145 +600,239 @@
   </div>
 </section>
 
-<section class="rule" id="approach">
-  <div class="wrap">
-    <div class="colset reveal">
-      <div class="label">The approach</div>
-      <div>
-        <h2>Other tools read the paper. NewScience re-runs it.</h2>
-        <p>Point NewScience at a published claim. Agents reproduce the experiment, measure the gap between what was claimed and what actually held up, and sign the result — <strong>a verified score with a cryptographic receipt, not a summary.</strong></p>
-        <p>It turns verified science into infrastructure the whole field can build on: <strong>a trust layer for scientists, an immune system for the field, and a verification rail for the labs and products that come next.</strong></p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="rule" id="platform">
+<!-- THE PRODUCT: three rungs -->
+<section class="rule" id="product">
   <div class="wrap">
     <div class="sec-head">
-      <span class="label">The platform</span>
-      <h2>Four systems, <em>one verified loop.</em></h2>
-      <p>Each delivers value on its own and compounds with every experiment the platform runs.</p>
+      <span class="label">The product</span>
+      <h2 class="heading-split">A specialized, <em>verified</em> foundation.</h2>
+      <p>NewScience is an AI research copilot for biology — with retrieval, analysis, and a growing set of integrations in one environment. What sets it apart is a built-in verification engine that re-executes computational claims, so your pipeline runs on ground truth, not trust.</p>
     </div>
-    <div class="systems">
-      <div class="system reveal has-visual" data-visual="repro" role="button" tabindex="0" aria-expanded="true" aria-controls="visual-repro">
-        <div class="sys-no">01</div>
-        <h3>Reproducibility Engine</h3>
-        <div class="sys-tag">Re-runs the experiment, scores the gap.</div>
-        <p>Translates a paper's parameters into executable simulation commands, runs protein folding and molecular docking, and scores how closely the results match the published claim.</p>
-        <span class="sys-open"><span>View the engine</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+    <div class="rungs">
+
+      <div class="rung reveal">
+        <div class="r-no">01</div>
+        <div class="r-icon">
+          <svg viewBox="0 0 40 40" fill="none" stroke="#5a75fa" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="17" cy="17" r="11"/><line x1="25" y1="25" x2="34" y2="34"/>
+            <line x1="12" y1="15" x2="22" y2="15"/><line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+        </div>
+        <h3>Research agent</h3>
+        <div class="r-tag">The daily wedge</div>
+        <p>Finds, reads, and synthesizes the literature for you. Drop an article in for an assessment, or ask a question and get the 5–10 strongest results — opened every day.</p>
+        <div class="r-role">Role — <span>opened every day</span></div>
       </div>
-      <div class="system reveal has-visual" data-visual="flow" role="button" tabindex="0" aria-expanded="false" aria-controls="visual-flow">
-        <div class="sys-no">02</div>
-        <h3>Agentic Discovery Swarm</h3>
-        <div class="sys-tag">From ingestion to auto pull request.</div>
-        <p>A multi-agent pipeline runs from ingestion to mutation design to an auto-generated pull request, with minimal human intervention — weeks of researcher time compressed into hours.</p>
-        <span class="sys-open"><span>View the workflow</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+
+      <div class="rung reveal">
+        <div class="r-no">02</div>
+        <div class="r-icon">
+          <svg viewBox="0 0 40 40" fill="none" stroke="#5a75fa" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M8 26 L16 18 L23 24 L33 12"/>
+            <polyline points="27 12 33 12 33 18"/>
+            <line x1="8" y1="32" x2="33" y2="32"/>
+          </svg>
+        </div>
+        <h3>Verification layer</h3>
+        <div class="r-tag">The differentiator</div>
+        <p>Ranks that work by reproducibility and executability — the deterministic E-class and NSE score, not citation. The signal that makes the results trustworthy.</p>
+        <div class="r-role">Role — <span>what makes it credible</span></div>
       </div>
-      <div class="system reveal has-visual" data-visual="biowiki" role="button" tabindex="0" aria-expanded="false" aria-controls="visual-biowiki">
-        <div class="sys-no">03</div>
-        <h3>BioWiki Knowledge Graph</h3>
-        <div class="sys-tag">Memory with a verifiable origin.</div>
-        <p>A self-evolving graph that accumulates verified evidence, reasoning templates, and simulation history. Nothing enters without a real run behind it — and it gets smarter every run.</p>
-        <span class="sys-open"><span>View the graph</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+
+      <div class="rung reveal">
+        <div class="r-no">03</div>
+        <div class="r-icon">
+          <svg viewBox="0 0 40 40" fill="none" stroke="#5a75fa" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 6 L32 11 V20 C32 28 26 33 20 35 C14 33 8 28 8 20 V11 Z"/>
+            <path d="M15 20 l4 4 l7 -8"/>
+          </svg>
+        </div>
+        <h3>Reproduce engine</h3>
+        <div class="r-tag">The proof &amp; the moat</div>
+        <p>Physically re-executes a computational claim through dry-lab connectors and scores how closely it reproduces — signing every run with cryptographic provenance.</p>
+        <div class="r-role">Role — <span>a run behind every claim</span></div>
       </div>
-      <div class="system reveal has-visual" data-visual="economy" role="button" tabindex="0" aria-expanded="false" aria-controls="visual-economy">
-        <div class="sys-no">04</div>
-        <h3>Autonomous Economy</h3>
-        <div class="sys-tag">Agents fund their own compute.</div>
-        <p>Agents self-fund GPU compute through x402 micropayments, inside enforced budget caps — no manual provisioning, with a full financial audit trail.</p>
-        <span class="sys-open"><span>View the economy</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
-      </div>
+
     </div>
   </div>
 </section>
 
-<section class="rule flow-section" id="visual-repro" aria-hidden="false">
-  <iframe class="flow-frame" src="repro-engine.html" title="NewScience reproducibility engine" scrolling="no"></iframe>
-</section>
-
-<section class="rule flow-section is-hidden" id="visual-flow" aria-hidden="true">
-  <iframe class="flow-frame" src="flow-canvas.html" title="NewScience agent workflow canvas" scrolling="no"></iframe>
-</section>
-
-<section class="rule flow-section is-hidden" id="visual-biowiki" aria-hidden="true">
-  <iframe class="flow-frame" src="biowiki-tree.html" title="NewScience BioWiki knowledge graph" scrolling="no"></iframe>
-</section>
-
-<section class="rule flow-section is-hidden" id="visual-economy" aria-hidden="true">
-  <iframe class="flow-frame" src="autonomous-economy.html" title="NewScience autonomous economy" scrolling="no"></iframe>
-</section>
-
-<section class="rule" id="use-cases">
+<!-- DOMAINS (tabbed) -->
+<section class="rule" id="domains">
   <div class="wrap">
-    <div class="sec-head">
-      <h2>Use cases</h2>
+    <div class="sec-head reveal">
+      <h2 class="heading-split">Focused <em>domains.</em></h2>
+      <p>These four domains are where we focus today — each chosen because its claims can be physically regenerated by our verification layer. As the engine matures, we expand into more.</p>
     </div>
-    <div class="aud">
-      <div class="aud-row reveal">
-        <div class="a-no">01</div>
-        <div class="a-main">
-          <h3 class="a-name">Verify before you commit</h3>
-          <div class="a-for">Computational biology &amp; biotech R&amp;D</div>
-        </div>
-        <p class="a-desc">Re-run a published structure or result and get a reproducibility score before you build a program on it.</p>
+
+    <div class="domains-grid">
+      <div class="dom-tabs" role="tablist" aria-label="Scientific domains">
+        <button class="dom-tab" role="tab" id="tab-docking" aria-controls="panel-docking" aria-selected="true">
+          <span>Molecular docking</span>
+        </button>
+        <button class="dom-tab" role="tab" id="tab-folding" aria-controls="panel-folding" aria-selected="false" tabindex="-1">
+          <span>Protein folding</span>
+        </button>
+        <button class="dom-tab" role="tab" id="tab-md" aria-controls="panel-md" aria-selected="false" tabindex="-1">
+          <span>Molecular dynamics</span>
+        </button>
+        <button class="dom-tab" role="tab" id="tab-genomics" aria-controls="panel-genomics" aria-selected="false" tabindex="-1">
+          <span>Genomics / NGS</span>
+        </button>
       </div>
-      <div class="aud-row reveal">
-        <div class="a-no">02</div>
-        <div class="a-main">
-          <h3 class="a-name">Triage the literature at scale</h3>
-          <div class="a-for">Drug discovery organizations</div>
+
+      <div class="dom-panels">
+        <div class="dom-panel active" id="panel-docking" role="tabpanel" aria-labelledby="tab-docking" tabindex="0">
+          <h3>Molecular docking</h3>
+          <p>Docking papers claim a ligand binds a target with a specific energy — but rarely ship the files to prove it. We extract the parameters, re-dock the reported pairs, and score the gap between what was claimed and what actually reproduces.</p>
+          <p>The result: every docking claim you rely on gets a verified, traceable binding-energy comparison instead of a number you have to take on faith.</p>
+          <div class="dom-viz">
+            <svg viewBox="0 0 620 150" preserveAspectRatio="xMidYMid meet">
+              <rect x="0" y="0" width="620" height="150" fill="none"/>
+              <text x="0" y="18" font-family="Red Hat Mono,monospace" font-size="11" fill="#5a6b86">CLAIMED</text>
+              <text x="0" y="88" font-family="Red Hat Mono,monospace" font-size="11" fill="#5a6b86">REPRODUCED</text>
+              <g stroke="#5a75fa" stroke-width="1.6" fill="none">
+                <line x1="120" y1="14" x2="600" y2="14"/>
+                <line x1="120" y1="84" x2="600" y2="84"/>
+              </g>
+              <g fill="#0d1a30">
+                <circle cx="180" cy="14" r="4"/><circle cx="300" cy="14" r="4"/><circle cx="420" cy="14" r="4"/><circle cx="540" cy="14" r="4"/>
+              </g>
+              <g fill="#5a75fa">
+                <circle cx="186" cy="84" r="4"/><circle cx="292" cy="84" r="4"/><circle cx="428" cy="84" r="4"/><circle cx="533" cy="84" r="4"/>
+              </g>
+              <g stroke="#a3b3ff" stroke-width="1.2" stroke-dasharray="3 3">
+                <line x1="180" y1="18" x2="186" y2="80"/><line x1="300" y1="18" x2="292" y2="80"/>
+                <line x1="420" y1="18" x2="428" y2="80"/><line x1="540" y1="18" x2="533" y2="80"/>
+              </g>
+              <text x="120" y="128" font-family="Red Hat Mono,monospace" font-size="11" fill="#5a6b86">CLAIMED vs REPRODUCED BINDING ENERGY</text>
+            </svg>
+            <div class="dviz-cap">Re-docked ligand–target pairs</div>
+          </div>
         </div>
-        <p class="a-desc">Point it at a topic, reproduce the field in parallel, and focus only on what holds up.</p>
-      </div>
-      <div class="aud-row reveal">
-        <div class="a-no">03</div>
-        <div class="a-main">
-          <h3 class="a-name">Diligence you can trace</h3>
-          <div class="a-for">Open-science &amp; infrastructure investors</div>
+
+        <div class="dom-panel" id="panel-folding" role="tabpanel" aria-labelledby="tab-folding" tabindex="0" hidden>
+          <h3>Protein folding</h3>
+          <p>Structure predictions circulate as fact before anyone re-runs them. We re-execute folding claims through open models and measure how closely the regenerated structure matches what a paper reported.</p>
+          <p>Instead of trusting a static figure, you get a re-run with a scored structural comparison — turning &ldquo;the paper says it folds this way&rdquo; into evidence you can verify.</p>
+          <div class="dom-viz">
+            <svg viewBox="0 0 620 150" preserveAspectRatio="xMidYMid meet">
+              <path d="M20 120 C 80 40, 140 40, 180 90 S 300 140, 360 80 S 480 30, 540 90 600 110 600 110" fill="none" stroke="#5a75fa" stroke-width="2"/>
+              <path d="M20 120 C 82 46, 138 44, 182 92 S 300 132, 362 84 S 482 36, 542 92 600 112 600 112" fill="none" stroke="#0d1a30" stroke-width="1.4" stroke-dasharray="4 4"/>
+              <g fill="#5a75fa"><circle cx="20" cy="120" r="4"/><circle cx="180" cy="90" r="4"/><circle cx="360" cy="80" r="4"/><circle cx="540" cy="90" r="4"/></g>
+              <text x="20" y="20" font-family="Red Hat Mono,monospace" font-size="11" fill="#5a6b86">PREDICTED BACKBONE vs RE-RUN · RMSD SCORED</text>
+            </svg>
+            <div class="dviz-cap">Structure re-execution comparison</div>
+          </div>
         </div>
-        <p class="a-desc">Every claim links back to a physical run with a cryptographic receipt — diligence that doesn't rely on trust.</p>
-      </div>
-      <div class="aud-row reveal">
-        <div class="a-no">04</div>
-        <div class="a-main">
-          <h3 class="a-name">Verification as a building block</h3>
-          <div class="a-for">Research platforms &amp; AI-lab tooling</div>
+
+        <div class="dom-panel" id="panel-md" role="tabpanel" aria-labelledby="tab-md" tabindex="0" hidden>
+          <h3>Molecular dynamics</h3>
+          <p>MD simulations are long, expensive, and almost never re-run by reviewers. We regenerate the trajectory from published parameters and compare energy profiles, conformational states, and stability claims against what was reported.</p>
+          <p>The longer and costlier the original run, the more valuable an independent reproduction becomes — and the harder it is to fake.</p>
+          <div class="dom-viz">
+            <svg viewBox="0 0 620 150" preserveAspectRatio="xMidYMid meet">
+              <polyline points="20,90 60,70 100,100 140,60 180,95 220,72 260,105 300,66 340,92 380,74 420,100 460,68 500,96 540,78 580,88" fill="none" stroke="#5a75fa" stroke-width="1.8"/>
+              <line x1="20" y1="120" x2="600" y2="120" stroke="rgba(13,26,48,0.14)" stroke-width="1"/>
+              <text x="20" y="20" font-family="Red Hat Mono,monospace" font-size="11" fill="#5a6b86">TRAJECTORY · ENERGY OVER TIME</text>
+            </svg>
+            <div class="dviz-cap">Trajectory regeneration</div>
+          </div>
         </div>
-        <p class="a-desc">Call verification, provenance, and signing as primitives — build them into your own product.</p>
+
+        <div class="dom-panel" id="panel-genomics" role="tabpanel" aria-labelledby="tab-genomics" tabindex="0" hidden>
+          <h3>Genomics / NGS</h3>
+          <p>Genomics and next-generation sequencing pipelines produce computational claims at scale — variant calls, expression quantifications, assembly metrics. We extend the same regeneration discipline here: re-run the pipeline, compare the output, score the gap.</p>
+          <p>Datasets and bio-models become standalone, verifiable artifacts — not just files attached to a paper.</p>
+          <div class="dom-viz">
+            <svg viewBox="0 0 620 150" preserveAspectRatio="xMidYMid meet">
+              <g stroke="#5a75fa" stroke-width="1.6" fill="none">
+                <path d="M40 30 C 120 130, 120 130, 200 30"/><path d="M40 130 C 120 30, 120 30, 200 130"/>
+                <path d="M240 30 C 320 130, 320 130, 400 30"/><path d="M240 130 C 320 30, 320 30, 400 130"/>
+              </g>
+              <g stroke="rgba(13,26,48,0.3)" stroke-width="1.2">
+                <line x1="70" y1="52" x2="170" y2="52"/><line x1="60" y1="80" x2="180" y2="80"/><line x1="70" y1="108" x2="170" y2="108"/>
+                <line x1="270" y1="52" x2="370" y2="52"/><line x1="260" y1="80" x2="380" y2="80"/><line x1="270" y1="108" x2="370" y2="108"/>
+              </g>
+              <text x="440" y="84" font-family="Red Hat Mono,monospace" font-size="11" fill="#5a6b86">DATASETS AS ARTIFACTS</text>
+            </svg>
+            <div class="dviz-cap">Pipeline regeneration</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
+<!-- PUBLICATIONS & PRESS -->
+<section class="rule" id="proof">
+  <div class="wrap">
+    <div class="pubs-head reveal">
+      <span class="label">Publications &amp; press</span>
+      <h2 class="heading-split">Peer-reviewed science, <em>verified line by line.</em></h2>
+    </div>
+    <div class="pubs-list reveal">
+      <a class="pub-row" href="paper1.html">
+        <div class="pub-tag">bioRxiv &middot; 2026</div>
+        <div class="pub-main">
+          <h3>Mpro-DockExec: an executability benchmark for SARS-CoV-2 docking claims</h3>
+          <p>236 docking papers audited, re-executed, and scored — the first protocol of the reproduce engine, proven by hand.</p>
+        </div>
+        <span class="pub-arrow" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M7 7h10v10"/></svg>
+        </span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CONNECTORS -->
+<section class="conn-band" id="connectors">
+  <div class="wrap">
+    <div class="conn-card reveal">
+      <div class="conn-logos">
+        <div class="conn-logo"><img src="connectors/pubmed.png" alt="PubMed" /></div>
+        <div class="conn-logo"><img src="connectors/europepmc.svg" alt="Europe PMC" /></div>
+        <div class="conn-logo"><img src="connectors/crossref.svg" alt="Crossref" /></div>
+        <div class="conn-logo"><img src="connectors/openalex.png" alt="OpenAlex" /></div>
+        <div class="conn-logo"><img src="connectors/pubchem.png" alt="PubChem" /></div>
+        <div class="conn-logo"><img src="connectors/rcsb-pdb.png" alt="RCSB PDB" /></div>
+        <div class="conn-logo"><img src="connectors/uniprot.png" alt="UniProt" /></div>
+        <div class="conn-logo"><img src="connectors/chembl.png" alt="ChEMBL" /></div>
+        <div class="conn-logo"><img src="connectors/biorxiv.svg" alt="bioRxiv" /></div>
+      </div>
+      <div class="conn-copy">
+        <h2>Works with your research stack</h2>
+        <p>Connectors bring public databases, literature sources, and chemical identity services into one environment — so every claim traces back to an official source.</p>
+        <span class="conn-soon">Coming soon</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING -->
 <section class="closing" id="join">
-  <div class="ns-bg" aria-hidden="true">
-    <div class="ns-scene ns-s1"><i class="ns-b1"></i><i class="ns-b2"></i><i class="ns-b3"></i></div>
-    <div class="ns-scene ns-s2"><i class="ns-b1"></i><i class="ns-b2"></i><i class="ns-b3"></i></div>
-    <div class="ns-scene ns-s3"><i class="ns-b1"></i><i class="ns-b2"></i><i class="ns-b3"></i></div>
-    <div class="ns-scene ns-s4"><i class="ns-b1"></i><i class="ns-b2"></i><i class="ns-b3"></i></div>
-    <div class="ns-grain"></div>
-  </div>
   <div class="closing-inner">
-    <h2>Want to be involved?</h2>
-    <p class="closing-sub">We are looking for computational biology researchers to work with us to build the future of shared foundation for human progress.</p>
-    <button type="button" class="btn-primary" data-open-join>Join us</button>
+    <h2>Accelerate science progress with NewScience.</h2>
+    <button type="button" class="btn-primary" data-open-join>Request access</button>
   </div>
 </section>
 
 <footer>
   <div class="wrap">
     <div class="foot-grid">
-      <div class="foot-word">NewScience</div>
+      <div class="foot-word"><img src="ns-mark.png" alt="" /> NewScience</div>
       <div class="foot-links">
-        <a href="#">Learn</a>
-        <a href="#">Docs</a>
-        <a href="#">Privacy Policy</a>
-        <a href="#">Contact</a>
+        <a href="#product">Product</a>
+        <a href="#proof">Publications</a>
+        <a href="use-cases.html">Use cases</a>
+        <a href="blog.html">Blog</a>
+        <a href="privacy-policy.html">Privacy Policy</a>
+        <a href="terms.html">Terms</a>
+        <a href="#" data-open-join>Request access</a>
       </div>
     </div>
     <div class="foot-bottom">
-      <span>In silico only · Human-approved</span>
       <span>© 2026 NewScience</span>
     </div>
   </div>
@@ -651,34 +842,39 @@
   <div class="modal-overlay" data-close></div>
   <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="joinTitle">
     <button class="modal-close" type="button" data-close aria-label="Close">Close</button>
-    <h2 id="joinTitle">Join us</h2>
-    <p class="modal-sub">We're assembling a network of computational biology researchers to build a shared, verifiable foundation for science. Tell us where you work and what you'd want to verify.</p>
+    <h2 id="joinTitle">Request access</h2>
+    <p class="modal-sub">Tell us where you work and what you&rsquo;d want to verify. We&rsquo;re onboarding computational biologists and the teams who carry decision risk on published claims.</p>
     <form class="modal-form" id="joinForm" novalidate>
       <label class="field"><span>Full name *</span><input type="text" name="name" autocomplete="name" required /></label>
       <label class="field"><span>Email address *</span><input type="email" name="email" autocomplete="email" required /></label>
-      <label class="field"><span>Institution / affiliation *</span><input type="text" name="institution" autocomplete="organization" required /></label>
+      <label class="field"><span>Institution / company *</span><input type="text" name="institution" autocomplete="organization" required /></label>
       <label class="field"><span>Role / title *</span><input type="text" name="title" autocomplete="organization-title" required /></label>
-      <fieldset>
-        <legend>Computational biology domains * <span>— select all that apply</span></legend>
-        <div class="chips">
-          <label class="chip"><input type="checkbox" name="domain" value="Protein structure prediction" />Protein structure</label>
-          <label class="chip"><input type="checkbox" name="domain" value="Molecular docking" />Molecular docking</label>
-          <label class="chip"><input type="checkbox" name="domain" value="Molecular dynamics" />Molecular dynamics</label>
-          <label class="chip"><input type="checkbox" name="domain" value="Genomics" />Genomics</label>
-          <label class="chip"><input type="checkbox" name="domain" value="Drug discovery" />Drug discovery</label>
-          <label class="chip"><input type="checkbox" name="domain" value="Protein / antibody design" />Protein design</label>
-          <label class="chip"><input type="checkbox" name="domain" value="Systems biology" />Systems biology</label>
-          <label class="chip"><input type="checkbox" name="domain" value="Cheminformatics" />Cheminformatics</label>
-          <label class="chip"><input type="checkbox" name="domain" value="Other" />Other</label>
-        </div>
-        <p class="chips-error" id="domainError" hidden>Please select at least one domain.</p>
-      </fieldset>
-      <label class="field"><span>How would you like to contribute? *</span><textarea name="contribute" rows="4" placeholder="The methods, structures, or claims you'd want to verify — and how you'd like to get involved." required></textarea></label>
-      <button type="submit" class="btn-primary modal-submit">Join us</button>
+      <label class="field"><span>What would you want to verify? *</span><textarea name="contribute" rows="4" placeholder="The methods, structures, or claims you'd want re-run — and how you'd like to get involved." required></textarea></label>
+      <button type="submit" class="btn-primary modal-submit">Request access</button>
     </form>
     <div class="modal-success" id="joinSuccess" hidden>
-      <h3>Thanks for your interest.</h3>
-      <p>We've noted your details and the domains you work in, and we'll be in touch about collaborating.</p>
+      <h3>Thanks — we&rsquo;ve noted your details.</h3>
+      <p>We&rsquo;ll be in touch about getting you access and what you&rsquo;d like to verify.</p>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="waitlistModal" aria-hidden="true">
+  <div class="modal-overlay" data-close></div>
+  <div class="modal-card modal-card-sm" role="dialog" aria-modal="true" aria-labelledby="waitlistTitle">
+    <button class="modal-close" type="button" data-close aria-label="Close">Close</button>
+    <h2 id="waitlistTitle">Join the waitlist</h2>
+    <p class="modal-sub">Be first in line for beta access, MCP, and API. We&rsquo;ll email you when it&rsquo;s your turn.</p>
+    <form class="waitlist-form" id="waitlistForm" novalidate>
+      <label class="field">
+        <span>Email address *</span>
+        <input type="email" name="email" autocomplete="email" placeholder="you@lab.edu" required />
+      </label>
+      <button type="submit" class="btn-primary modal-submit">Join waitlist</button>
+    </form>
+    <div class="modal-success" id="waitlistSuccess" hidden>
+      <h3>You&rsquo;re on the list.</h3>
+      <p>We&rsquo;ll email you as soon as it&rsquo;s your turn.</p>
     </div>
   </div>
 </div>
@@ -694,97 +890,77 @@
   }, { threshold: 0.12 });
   document.querySelectorAll('.reveal').forEach((el, i) => { el.style.transitionDelay = (i % 4) * 80 + 'ms'; io.observe(el); });
 
-  // embedded visuals: size each iframe to its content (same-origin) + single-slot accordion reveal
+  // Heading word-reveal — masked, staggered slide-up on scroll (section headings only)
   (function () {
-    function fit(f) {
-      if (!f) return;
-      try {
-        const doc = f.contentWindow.document;
-        // Body is auto-height, so scrollHeight already equals content height.
-        // (Don't collapse the iframe to 0 to measure — that fires a resize INSIDE
-        // the iframe, which restarts its canvas simulation mid-run.)
-        const h = Math.max(doc.body.scrollHeight, doc.documentElement.scrollHeight);
-        f.style.height = Math.ceil(h) + 'px';
-      } catch (e) { /* cross-origin: leave as-is */ }
-    }
-    const frames = document.querySelectorAll('.flow-frame');
-    frames.forEach((f) => {
-      f.addEventListener('load', () => {
-        fit(f); setTimeout(() => fit(f), 300); setTimeout(() => fit(f), 800);
-        try { new ResizeObserver(() => fit(f)).observe(f.contentWindow.document.body); } catch (e) {}
-        // auto-play the visual if its panel is open on load (default Repro Engine)
-        const sec = f.closest('.flow-section');
-        if (sec && !sec.classList.contains('is-hidden')) {
-          try { f.contentWindow.nsPlay && f.contentWindow.nsPlay(); } catch (e) {}
+    function splitWords(node) {
+      Array.from(node.childNodes).forEach((child) => {
+        if (child.nodeType === Node.TEXT_NODE) {
+          if (!child.textContent.trim()) return;
+          const frag = document.createDocumentFragment();
+          child.textContent.split(/(\s+)/).forEach((part) => {
+            if (part === '') return;
+            if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
+            const mask = document.createElement('span');
+            mask.className = 'word-mask';
+            const inner = document.createElement('span');
+            inner.className = 'word-inner';
+            inner.textContent = part;
+            mask.appendChild(inner);
+            frag.appendChild(mask);
+          });
+          node.replaceChild(frag, child);
+        } else if (child.nodeType === Node.ELEMENT_NODE) {
+          splitWords(child);
         }
       });
-    });
-    window.addEventListener('resize', () => frames.forEach((f) => setTimeout(() => fit(f), 150)));
-
-    // Each platform card with a visual maps to a panel. Only ONE panel is open at a time;
-    // because the panels are consecutive siblings, the open one always sits in the same slot,
-    // so opening a new visual replaces the previous one in place (no stacking down the page).
-    const panels = Array.from(document.querySelectorAll('.system.has-visual')).map((card) => {
-      const target = document.getElementById('visual-' + card.dataset.visual);
-      const frame = target ? target.querySelector('.flow-frame') : null;
-      const label = card.querySelector('.sys-open span');
-      const viewText = label ? label.textContent : '';
-      return { card, target, frame, label, viewText, hideText: viewText.replace(/^View/i, 'Hide') };
-    }).filter((p) => p.target);
-
-    // initial UI state — reflect whichever panel starts open in the DOM (Repro Engine by default)
-    panels.forEach((p) => {
-      const open = !p.target.classList.contains('is-hidden');
-      p.card.setAttribute('aria-expanded', String(open));
-      p.target.setAttribute('aria-hidden', String(!open));
-      if (p.label) p.label.textContent = open ? p.hideText : p.viewText;
-    });
-
-    function closePanel(p) {
-      p.target.classList.add('is-hidden');
-      p.target.setAttribute('aria-hidden', 'true');
-      p.card.setAttribute('aria-expanded', 'false');
-      if (p.label) p.label.textContent = p.viewText;
-      if (p.frame) { try { p.frame.contentWindow.nsPause && p.frame.contentWindow.nsPause(); } catch (e) {} }
-    }
-    function openPanel(p) {
-      p.target.classList.remove('is-hidden');
-      p.target.setAttribute('aria-hidden', 'false');
-      p.card.setAttribute('aria-expanded', 'true');
-      if (p.label) p.label.textContent = p.hideText;
-      if (p.frame) {
-        // the iframe rendered while hidden (0 size) — tell it to re-layout now it's visible
-        try { p.frame.contentWindow.dispatchEvent(new Event('resize')); } catch (e) {}
-        try { p.frame.contentWindow.nsPlay && p.frame.contentWindow.nsPlay(); } catch (e) {}
-        fit(p.frame);
-        requestAnimationFrame(() => {
-          fit(p.frame);
-          p.target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        });
-        setTimeout(() => fit(p.frame), 260);
-      }
     }
 
-    panels.forEach((p) => {
-      function toggle() {
-        const isOpen = !p.target.classList.contains('is-hidden');
-        panels.forEach((o) => { if (o !== p) closePanel(o); });   // single slot: close the others
-        if (isOpen) closePanel(p); else openPanel(p);
-      }
-      p.card.addEventListener('click', toggle);
-      p.card.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+    const headings = document.querySelectorAll('.heading-split');
+    headings.forEach((h) => {
+      splitWords(h);
+      h.querySelectorAll('.word-inner').forEach((w, i) => { w.style.transitionDelay = Math.min(i, 14) * 40 + 'ms'; });
+    });
+
+    const hio = new IntersectionObserver((es) => {
+      es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); hio.unobserve(e.target); } });
+    }, { threshold: 0.3 });
+    headings.forEach((h) => hio.observe(h));
+  })();
+
+  // Domain tabs
+  (function () {
+    const tabs = Array.from(document.querySelectorAll('.dom-tab'));
+    const panels = Array.from(document.querySelectorAll('.dom-panel'));
+    if (!tabs.length) return;
+    function select(tab) {
+      tabs.forEach((t) => {
+        const on = t === tab;
+        t.setAttribute('aria-selected', String(on));
+        t.tabIndex = on ? 0 : -1;
+      });
+      panels.forEach((p) => {
+        const on = p.getAttribute('aria-labelledby') === tab.id;
+        p.classList.toggle('active', on);
+        p.hidden = !on;
+      });
+    }
+    tabs.forEach((tab, i) => {
+      tab.addEventListener('click', () => select(tab));
+      tab.addEventListener('keydown', (e) => {
+        let next = null;
+        if (e.key === 'ArrowDown' || e.key === 'ArrowRight') next = tabs[(i + 1) % tabs.length];
+        else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') next = tabs[(i - 1 + tabs.length) % tabs.length];
+        if (next) { e.preventDefault(); select(next); next.focus(); }
       });
     });
   })();
 
-  // Join / Request-access modal
-  (function () {
-    const modal = document.getElementById('joinModal');
+  // Modals — request-access (full form) and waitlist (email only)
+  function bindModal({ modalId, openAttr, formId, successId }) {
+    const modal = document.getElementById(modalId);
     if (!modal) return;
-    const form = document.getElementById('joinForm');
-    const success = document.getElementById('joinSuccess');
-    const domainError = document.getElementById('domainError');
+    const form = document.getElementById(formId);
+    const success = document.getElementById(successId);
     let lastFocus = null;
 
     function open() {
@@ -802,14 +978,13 @@
       if (lastFocus && lastFocus.focus) lastFocus.focus();
     }
 
-    document.querySelectorAll('[data-open-join]').forEach((el) => {
+    document.querySelectorAll(`[${openAttr}]`).forEach((el) => {
       el.addEventListener('click', (e) => { e.preventDefault(); open(); });
     });
     modal.querySelectorAll('[data-close]').forEach((el) => el.addEventListener('click', close));
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && modal.classList.contains('open')) close();
     });
-    // simple focus trap
     modal.addEventListener('keydown', (e) => {
       if (e.key !== 'Tab') return;
       const f = Array.from(modal.querySelectorAll('button, input, textarea, select, a[href]'))
@@ -822,17 +997,16 @@
 
     form.addEventListener('submit', (e) => {
       e.preventDefault();
-      const domains = form.querySelectorAll('input[name="domain"]:checked').length;
-      domainError.hidden = domains > 0;
       if (!form.checkValidity()) { form.reportValidity(); return; }
-      if (domains === 0) return;
-      // no backend wired — show a confirmation in place
       form.hidden = true;
       success.hidden = false;
     });
-  })();
+  }
 
-  // Document Index dropdown menu (anchors to page sections)
+  bindModal({ modalId: 'joinModal', openAttr: 'data-open-join', formId: 'joinForm', successId: 'joinSuccess' });
+  bindModal({ modalId: 'waitlistModal', openAttr: 'data-open-waitlist', formId: 'waitlistForm', successId: 'waitlistSuccess' });
+
+  // Contents dropdown
   (function () {
     const btn = document.getElementById('menuBtn');
     const panel = document.getElementById('docIndex');

@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Terms of Service — NewScience</title>
+<meta name="description" content="Terms governing your use of NewScience, the AI research agent for biology." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Red+Hat+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink:        #0d1a30;
+    --ink-soft:   #2a4068;
+    --ink-muted:  #5a6b86;
+    --paper:      #ffffff;
+    --surface:    #ffffff;
+    --line:       rgba(13,26,48,0.14);
+    --cobalt:     #5a75fa;
+    --cobalt-light:#a3b3ff;
+    --cobalt-50:  #d9e1ff;
+    --radius-sm:  8px;
+    --radius-md:  12px;
+    --display:'Inter', system-ui, sans-serif;
+    --sans:   'Inter', system-ui, sans-serif;
+    --mono:   'Red Hat Mono', ui-monospace, monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--paper); color: var(--ink);
+    font-family: var(--sans); font-size: 16px; line-height: 1.65; font-weight: 300;
+    -webkit-font-smoothing: antialiased;
+  }
+  em { font-style: normal; }
+  a { color: inherit; }
+
+  .label {
+    font-family: var(--mono); font-size: 11px; font-weight: 400;
+    letter-spacing: 0.28em; text-transform: uppercase; color: var(--ink-muted);
+  }
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
+
+  /* NAV */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 30;
+    display: flex; align-items: center; justify-content: space-between; padding: 28px 40px;
+    transition: background 0.35s, box-shadow 0.35s, padding 0.35s;
+  }
+  .nav.scrolled {
+    background: rgba(255,255,255,0.9); backdrop-filter: blur(16px);
+    box-shadow: 0 1px 0 var(--line); padding-top: 18px; padding-bottom: 18px;
+  }
+  .wordmark {
+    font-family: var(--display); font-weight: 600; font-size: 20px;
+    letter-spacing: -0.01em; color: var(--ink); text-decoration: none;
+    display: inline-flex; align-items: center; gap: 10px;
+  }
+  .brand-mark { height: 30px; width: auto; display: block; }
+  .nav-right { display: flex; align-items: center; gap: 32px; }
+  .nav-link {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--ink-muted); text-decoration: none; transition: color 0.2s;
+  }
+  .nav-link:hover { color: var(--ink); }
+  .nav-link:focus-visible, .nav-cta:focus-visible { outline: 2px solid var(--cobalt); outline-offset: 4px; border-radius: 3px; }
+  .nav-cta {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: #fff; background: var(--cobalt); text-decoration: none; padding: 11px 20px; border-radius: var(--radius-sm);
+    transition: opacity 0.2s;
+  }
+  .nav-cta:hover { opacity: 0.85; }
+  @media (max-width: 820px) { .nav-links-hide { display: none; } }
+
+  .btn-primary {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    background: var(--cobalt); color: #fff; text-decoration: none; padding: 15px 28px; border-radius: var(--radius-sm); transition: opacity 0.2s; display: inline-block;
+    border: none; cursor: pointer;
+  }
+  .btn-primary:hover { opacity: 0.86; }
+  .btn-primary:focus-visible { outline: 2px solid var(--cobalt); outline-offset: 3px; }
+
+  /* ARTICLE / LEGAL DOC */
+  .article { padding: 168px 0 40px; }
+  .prose-wrap { max-width: 760px; margin: 0 auto; padding: 0 40px; }
+
+  .art-head { margin-bottom: 40px; }
+  .art-head .label { display: block; margin-bottom: 22px; }
+  .art-head h1 {
+    font-family: var(--display); font-weight: 500; font-size: clamp(32px, 5vw, 54px);
+    line-height: 1.1; letter-spacing: -0.028em; margin-bottom: 20px;
+  }
+  .art-meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-muted); }
+  .art-meta .art-dot { opacity: 0.5; }
+
+  .art-body { border-top: 1px solid var(--line); padding-top: 44px; }
+  .art-body > p { font-size: 16px; line-height: 1.85; color: var(--ink-soft); font-weight: 300; margin-bottom: 22px; max-width: 68ch; }
+  .art-body p strong { color: var(--ink); font-weight: 500; }
+  .art-body a { color: var(--cobalt); text-decoration: underline; text-underline-offset: 3px; }
+  .art-body a:hover { opacity: 0.8; }
+  .art-lede { font-size: 18px; line-height: 1.72; color: var(--ink-soft); font-weight: 300; }
+
+  /* in-page table of contents */
+  .legal-toc {
+    margin: 36px 0 8px; padding: 8px; border: 1px solid var(--line); border-radius: var(--radius-md);
+  }
+  .legal-toc-top {
+    padding: 12px 14px 14px; margin-bottom: 4px; border-bottom: 1px solid var(--line);
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-muted);
+  }
+  .legal-toc-list { display: grid; grid-template-columns: 1fr 1fr; }
+  .legal-toc-list a {
+    display: flex; align-items: baseline; gap: 12px; padding: 10px 14px; border-radius: var(--radius-sm);
+    text-decoration: none; font-family: var(--sans); font-weight: 400; font-size: 14.5px; color: var(--ink);
+    transition: background 0.2s, color 0.2s;
+  }
+  .legal-toc-list a:hover { background: rgba(90,117,250,0.06); color: var(--cobalt); }
+  .legal-toc-list a:focus-visible { outline: 2px solid var(--cobalt); outline-offset: -2px; }
+  .legal-toc-list .tc-no { font-family: var(--mono); font-size: 11px; color: var(--ink-muted); min-width: 16px; }
+  @media (max-width: 600px) { .legal-toc-list { grid-template-columns: 1fr; } }
+
+  /* numbered legal sections */
+  .legal-section { margin-top: 56px; padding-top: 4px; scroll-margin-top: 96px; }
+  .legal-section .legal-no {
+    font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; color: var(--cobalt); margin-bottom: 10px; display: block;
+  }
+  .legal-section h2 {
+    font-family: var(--display); font-weight: 500; font-size: clamp(21px, 2.4vw, 27px);
+    letter-spacing: -0.015em; color: var(--ink); margin-bottom: 16px; line-height: 1.2;
+  }
+  .legal-section p { font-size: 15.5px; line-height: 1.8; color: var(--ink-soft); font-weight: 300; margin-bottom: 16px; max-width: 68ch; }
+  .legal-section p:last-child { margin-bottom: 0; }
+  .legal-section ul { margin: 0 0 16px; padding: 0; max-width: 68ch; }
+  .legal-section ul li {
+    list-style: none; position: relative; padding-left: 22px; font-size: 15.5px; line-height: 1.75;
+    color: var(--ink-soft); font-weight: 300; margin-bottom: 10px;
+  }
+  .legal-section ul li::before { content: '—'; position: absolute; left: 0; color: var(--cobalt); }
+  .legal-section ul li strong { color: var(--ink); font-weight: 500; }
+  .legal-section ul li:last-child { margin-bottom: 0; }
+
+  .art-note {
+    display: flex; gap: 16px; align-items: flex-start; margin: 40px 0 0; padding: 22px 24px;
+    border: 1px solid var(--line); border-radius: var(--radius-md); background: linear-gradient(135deg,#f4f6fe 0%, #eaeefb 100%);
+  }
+  .art-note svg { flex: none; width: 18px; height: 18px; color: var(--cobalt); margin-top: 2px; }
+  .art-note p { margin: 0; font-size: 14.5px; color: var(--ink-soft); line-height: 1.65; max-width: none; }
+  .art-note p strong { color: var(--ink); }
+
+  .art-cta {
+    margin-top: 64px; padding: 44px; border: 1px solid var(--line); border-radius: var(--radius-md);
+    background: linear-gradient(135deg,#f4f6fe 0%, #eaeefb 100%); text-align: center;
+  }
+  .art-cta h3 { font-family: var(--display); font-weight: 500; font-size: clamp(22px, 2.6vw, 28px); letter-spacing: -0.02em; margin-bottom: 10px; }
+  .art-cta p { color: var(--ink-soft); font-weight: 300; font-size: 15px; margin-bottom: 22px; }
+
+  footer { background: var(--surface); color: var(--ink-muted); padding: 80px 0 40px; border-top: 1px solid var(--line); margin-top: 100px; }
+  .foot-grid { display: flex; justify-content: space-between; align-items: flex-start; gap: 40px; flex-wrap: wrap; margin-bottom: 56px; }
+  .foot-word { font-family: var(--display); font-weight: 600; font-size: 20px; letter-spacing: -0.01em; color: var(--ink); display: inline-flex; align-items: center; gap: 10px; }
+  .foot-word img { height: 26px; width: auto; }
+  .foot-links { display: flex; gap: 40px; flex-wrap: wrap; align-items: center; }
+  .foot-links a { font-family: var(--mono); font-size: 12px; letter-spacing: 0.05em; color: var(--ink-soft); text-decoration: none; transition: color 0.2s; }
+  .foot-links a:hover { color: var(--ink); }
+  .foot-links a:focus-visible { outline: 2px solid var(--cobalt); outline-offset: 4px; border-radius: 3px; }
+  .foot-bottom { border-top: 1px solid var(--line); padding-top: 28px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  .foot-bottom span { font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; color: var(--ink-muted); }
+
+  /* JOIN MODAL */
+  .modal { position: fixed; inset: 0; z-index: 100; display: none; }
+  .modal.open { display: block; }
+  .modal-overlay { position: absolute; inset: 0; background: rgba(13,26,48,0.55); backdrop-filter: blur(4px); }
+  .modal-card { position: relative; z-index: 1; width: min(560px, calc(100% - 32px)); max-height: calc(100vh - 64px);
+    overflow-y: auto; margin: 32px auto; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-md);
+    padding: 40px; box-shadow: 0 40px 90px -30px rgba(13,26,48,0.55); }
+  .modal-close { position: absolute; top: 18px; right: 20px; background: none; border: none; cursor: pointer;
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-muted); transition: color 0.2s; }
+  .modal-close:hover { color: var(--ink); }
+  .modal-close:focus-visible { outline: 2px solid var(--cobalt); outline-offset: 3px; }
+  .modal-card h2 { font-family: var(--display); font-weight: 500; font-size: clamp(26px, 3vw, 34px);
+    letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 10px; max-width: 18ch; }
+  .modal-sub { color: var(--ink-soft); font-weight: 300; font-size: 15px; line-height: 1.6; margin-bottom: 28px; }
+  .modal-form { display: flex; flex-direction: column; gap: 18px; }
+  .field { display: block; }
+  .field > span { display: block; font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--ink-muted); margin-bottom: 8px; }
+  .modal-form input, .modal-form textarea { font-family: var(--sans); font-size: 15px; font-weight: 300; color: var(--ink);
+    background: #fff; border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 12px 14px; width: 100%;
+    transition: border-color 0.2s, box-shadow 0.2s; }
+  .modal-form textarea { resize: vertical; min-height: 96px; line-height: 1.6; }
+  .modal-form input::placeholder, .modal-form textarea::placeholder { color: var(--ink-muted); opacity: 0.7; }
+  .modal-form input:focus, .modal-form textarea:focus { outline: none; border-color: var(--cobalt); box-shadow: 0 0 0 3px rgba(90,117,250,0.12); }
+  .modal-form[hidden] { display: none; }
+  .modal-submit { align-self: flex-start; margin-top: 4px; }
+  .modal-success { text-align: center; padding: 8px 0 4px; }
+  .modal-success h3 { font-family: var(--display); font-weight: 500; font-size: 24px; letter-spacing: -0.02em; margin-bottom: 10px; }
+  .modal-success p { color: var(--ink-soft); font-weight: 300; font-size: 15px; line-height: 1.6; }
+  @media (max-width: 760px) { .modal-card { padding: 30px 20px; margin: 16px auto; } }
+
+  .reveal { transition: opacity 0.9s ease, transform 0.9s ease; }
+  .js-animations .reveal { opacity: 0; transform: translateY(20px); }
+  .js-animations .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .js-animations .reveal { opacity: 1 !important; transform: none !important; transition: none; } }
+
+  :target { scroll-margin-top: 96px; }
+
+  @media (max-width: 760px) {
+    .wrap { padding: 0 24px; }
+    .nav { padding: 20px 24px; }
+    .nav-right { gap: 16px; }
+    .nav-cta { padding: 10px 16px; }
+    .brand-mark { height: 26px; }
+    .wordmark { font-size: 18px; gap: 8px; }
+    .article { padding-top: 128px; }
+    .prose-wrap { padding: 0 24px; }
+    .art-cta { padding: 36px 24px; }
+  }
+</style>
+<script>document.documentElement.classList.add('js-animations');</script>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="wordmark" href="index.html"><img class="brand-mark" src="ns-mark.png" alt="" /> NewScience</a>
+  <div class="nav-right">
+    <a class="nav-link nav-links-hide" href="index.html">&larr; Back to site</a>
+    <a class="nav-cta" href="#" data-open-join>Request access</a>
+  </div>
+</nav>
+
+<main class="article" id="top">
+  <div class="prose-wrap">
+
+    <div class="art-head reveal">
+      <span class="label">Legal</span>
+      <h1>Terms of Service</h1>
+      <div class="art-meta">
+        <span>Effective July 2, 2026</span><span class="art-dot">&bull;</span><span>NewScience</span>
+      </div>
+    </div>
+
+    <article class="art-body reveal">
+      <p class="art-lede">These Terms of Service (&ldquo;Terms&rdquo;) govern your access to and use of newsciencex.com, the NewScience research agent, waitlist and request-access forms, and any related services (together, the &ldquo;Service&rdquo;). By using the Service you agree to these Terms. If you do not agree, do not use the Service.</p>
+
+      <p>&ldquo;NewScience,&rdquo; &ldquo;we,&rdquo; &ldquo;us,&rdquo; and &ldquo;our&rdquo; refer to NewScience Pte. Ltd. and its affiliates. &ldquo;You&rdquo; and &ldquo;your&rdquo; refer to the individual or entity using the Service.</p>
+
+      <nav class="legal-toc" aria-label="Table of contents">
+        <div class="legal-toc-top">Contents</div>
+        <div class="legal-toc-list">
+          <a href="#the-service"><span class="tc-no">01</span><span>The Service</span></a>
+          <a href="#eligibility"><span class="tc-no">02</span><span>Eligibility &amp; accounts</span></a>
+          <a href="#acceptable-use"><span class="tc-no">03</span><span>Acceptable use</span></a>
+          <a href="#your-content"><span class="tc-no">04</span><span>Your content</span></a>
+          <a href="#ai-output"><span class="tc-no">05</span><span>AI output &amp; accuracy</span></a>
+          <a href="#ip"><span class="tc-no">06</span><span>Intellectual property</span></a>
+          <a href="#fees"><span class="tc-no">07</span><span>Fees &amp; payment</span></a>
+          <a href="#termination"><span class="tc-no">08</span><span>Termination</span></a>
+          <a href="#disclaimers"><span class="tc-no">09</span><span>Disclaimers &amp; liability</span></a>
+          <a href="#changes"><span class="tc-no">10</span><span>Changes &amp; contact</span></a>
+        </div>
+      </nav>
+
+      <section class="legal-section" id="the-service">
+        <span class="legal-no">01</span>
+        <h2>The Service</h2>
+        <p>NewScience is an AI-powered research agent for biology. It retrieves, ranks, and verifies published scientific literature — and, where possible, re-executes the computational claims inside it. The Service is designed as a research tool, not a substitute for independent scientific judgment.</p>
+        <p>We may modify, suspend, or discontinue any part of the Service at any time. We will give reasonable notice where practicable, but the Service is provided on an evolving basis and we do not guarantee uninterrupted availability.</p>
+      </section>
+
+      <section class="legal-section" id="eligibility">
+        <span class="legal-no">02</span>
+        <h2>Eligibility &amp; accounts</h2>
+        <p>You must be at least 16 years old to use the Service. If you are using the Service on behalf of an organization, you represent that you have authority to bind that organization to these Terms.</p>
+        <p>You are responsible for keeping your account credentials secure and for all activity under your account. Notify us promptly at <a href="mailto:team@newsciencex.com">team@newsciencex.com</a> if you suspect unauthorized access.</p>
+      </section>
+
+      <section class="legal-section" id="acceptable-use">
+        <span class="legal-no">03</span>
+        <h2>Acceptable use</h2>
+        <p>You agree not to:</p>
+        <ul>
+          <li>Use the Service in any way that violates applicable law or regulation.</li>
+          <li>Submit protected health information, patient-level clinical data, or other regulated data categories not supported by the Service.</li>
+          <li>Attempt to reverse-engineer, decompile, or extract source code or model weights from the Service.</li>
+          <li>Interfere with or disrupt the Service, or circumvent any access controls, rate limits, or security measures.</li>
+          <li>Resell, sublicense, or redistribute the Service or its outputs without our written permission.</li>
+          <li>Use the Service to generate content that is misleading, fraudulent, or harmful.</li>
+        </ul>
+        <p>We may suspend or terminate access for violations of this section without prior notice.</p>
+      </section>
+
+      <section class="legal-section" id="your-content">
+        <span class="legal-no">04</span>
+        <h2>Your content</h2>
+        <p>You retain ownership of any content you submit to the Service (&ldquo;Your Content&rdquo;). By submitting content, you grant NewScience a limited, non-exclusive, worldwide license to use, process, and store that content solely to operate and improve the Service for you.</p>
+        <ul>
+          <li><strong>We do not train models on Your Content</strong> without your explicit, separate consent. See our <a href="privacy-policy.html">Privacy Policy</a> for details.</li>
+          <li><strong>Your Content remains confidential.</strong> We treat uploaded documents, queries, and imported research data as confidential and handle them as described in our Privacy Policy.</li>
+          <li><strong>You can delete Your Content</strong> at any time by contacting us. We will remove it from active systems within a reasonable timeframe, subject to legal retention requirements.</li>
+        </ul>
+      </section>
+
+      <section class="legal-section" id="ai-output">
+        <span class="legal-no">05</span>
+        <h2>AI output &amp; accuracy</h2>
+        <p>The Service uses AI models and automated systems to generate results, including literature rankings, verification reports, and re-execution outputs. These outputs are provided as research aids and are subject to the following limitations:</p>
+        <ul>
+          <li><strong>Not a guarantee of scientific accuracy.</strong> AI-generated outputs may contain errors, omissions, or misinterpretations. You are responsible for independently verifying any result before relying on it for research, regulatory, or business decisions.</li>
+          <li><strong>Not medical or clinical advice.</strong> The Service is not designed for clinical decision-making, patient care, or diagnostic use. Do not use it as a substitute for qualified professional judgment.</li>
+          <li><strong>Outputs may change.</strong> As we improve our models and data sources, results for the same query may differ over time.</li>
+        </ul>
+      </section>
+
+      <section class="legal-section" id="ip">
+        <span class="legal-no">06</span>
+        <h2>Intellectual property</h2>
+        <p>The Service — including its software, models, design, documentation, and trademarks — is owned by NewScience or its licensors and is protected by intellectual property laws. These Terms do not grant you any right to use our name, logo, or trademarks without written permission.</p>
+        <p>Outputs generated by the Service based on Your Content are yours to use, subject to these Terms and any third-party rights in the underlying source material (for example, the copyright of a paper the Service retrieved for you).</p>
+      </section>
+
+      <section class="legal-section" id="fees">
+        <span class="legal-no">07</span>
+        <h2>Fees &amp; payment</h2>
+        <p>Access to the Service during the current pre-launch period is provided at no cost. When we introduce paid plans, we will give you advance notice and clearly communicate pricing before any charges apply. You will not be billed without affirmatively opting into a paid plan.</p>
+        <p>If applicable in the future, fees are exclusive of taxes. You are responsible for any applicable taxes in your jurisdiction.</p>
+      </section>
+
+      <section class="legal-section" id="termination">
+        <span class="legal-no">08</span>
+        <h2>Termination</h2>
+        <p>You may stop using the Service at any time. You may request deletion of your account and data by emailing <a href="mailto:team@newsciencex.com">team@newsciencex.com</a>.</p>
+        <p>We may suspend or terminate your access if you breach these Terms, if required by law, or if we discontinue the Service. Where practicable, we will provide notice before termination and give you an opportunity to export Your Content.</p>
+        <p>Sections that by their nature should survive termination — including disclaimers, limitation of liability, intellectual property, and governing law — will survive.</p>
+      </section>
+
+      <section class="legal-section" id="disclaimers">
+        <span class="legal-no">09</span>
+        <h2>Disclaimers &amp; limitation of liability</h2>
+        <p><strong>The Service is provided &ldquo;as is&rdquo; and &ldquo;as available.&rdquo;</strong> To the maximum extent permitted by applicable law, NewScience disclaims all warranties, express or implied, including implied warranties of merchantability, fitness for a particular purpose, and non-infringement. We do not warrant that the Service will be uninterrupted, error-free, or that any results will be accurate or complete.</p>
+        <p><strong>Limitation of liability.</strong> To the maximum extent permitted by applicable law, NewScience and its officers, directors, employees, and affiliates will not be liable for any indirect, incidental, special, consequential, or punitive damages, or any loss of profits, data, or goodwill, arising out of or related to your use of the Service — regardless of the theory of liability.</p>
+        <p>Our total aggregate liability for any claims arising under these Terms will not exceed the greater of (a) the amount you paid us in the 12 months before the claim arose, or (b) USD $100.</p>
+        <p>Nothing in these Terms excludes or limits liability that cannot be excluded or limited under applicable law.</p>
+      </section>
+
+      <section class="legal-section" id="changes">
+        <span class="legal-no">10</span>
+        <h2>Changes &amp; contact</h2>
+        <p>We may update these Terms as the Service evolves. If a change is material, we will notify you by email or in-product notice at least 30 days before it takes effect. Continued use of the Service after that notice period constitutes acceptance of the updated Terms.</p>
+        <p>For disputes, we encourage you to contact us first so we can try to resolve the matter informally. Any dispute that cannot be resolved informally will be governed by the laws applicable to NewScience&rsquo;s place of incorporation, without regard to conflict-of-law principles.</p>
+        <p>Questions about these Terms: <a href="mailto:team@newsciencex.com">team@newsciencex.com</a>.</p>
+      </section>
+
+      <div class="art-note reveal">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><circle cx="12" cy="16" r="0.5" fill="currentColor"/></svg>
+        <p><strong>This is a working draft.</strong> NewScience is pre-launch. These Terms will be reviewed with legal counsel before general availability. If you are evaluating NewScience for enterprise procurement, request the current version at <a href="mailto:team@newsciencex.com">team@newsciencex.com</a>.</p>
+      </div>
+    </article>
+
+    <div class="art-cta reveal">
+      <h3>Ready to get started?</h3>
+      <p>Tell us what you&rsquo;d want to verify and we&rsquo;ll get you set up.</p>
+      <button type="button" class="btn-primary" data-open-join>Request access</button>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-word"><img src="ns-mark.png" alt="" /> NewScience</div>
+      <div class="foot-links">
+        <a href="index.html#product">Product</a>
+        <a href="index.html#proof">Publications</a>
+        <a href="use-cases.html">Use cases</a>
+        <a href="blog.html">Blog</a>
+        <a href="privacy-policy.html">Privacy Policy</a>
+        <a href="#" data-open-join>Request access</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>&copy; 2026 NewScience</span>
+    </div>
+  </div>
+</footer>
+
+<div class="modal" id="joinModal" aria-hidden="true">
+  <div class="modal-overlay" data-close></div>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="joinTitle">
+    <button class="modal-close" type="button" data-close aria-label="Close">Close</button>
+    <h2 id="joinTitle">Request access</h2>
+    <p class="modal-sub">Tell us where you work and what you&rsquo;d want to verify. We&rsquo;re onboarding computational biologists and the teams who carry decision risk on published claims.</p>
+    <form class="modal-form" id="joinForm" novalidate>
+      <label class="field"><span>Full name *</span><input type="text" name="name" autocomplete="name" required /></label>
+      <label class="field"><span>Email address *</span><input type="email" name="email" autocomplete="email" required /></label>
+      <label class="field"><span>Institution / company *</span><input type="text" name="institution" autocomplete="organization" required /></label>
+      <label class="field"><span>Role / title *</span><input type="text" name="title" autocomplete="organization-title" required /></label>
+      <label class="field"><span>What would you want to verify? *</span><textarea name="contribute" rows="4" placeholder="The methods, structures, or claims you'd want re-run — and how you'd like to get involved." required></textarea></label>
+      <button type="submit" class="btn-primary modal-submit">Request access</button>
+    </form>
+    <div class="modal-success" id="joinSuccess" hidden>
+      <h3>Thanks — we&rsquo;ve noted your details.</h3>
+      <p>We&rsquo;ll be in touch about getting you access and what you&rsquo;d like to verify.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  const nav = document.querySelector('.nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  }, { passive: true });
+
+  const io = new IntersectionObserver((es) => {
+    es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach((el, i) => { el.style.transitionDelay = (i % 4) * 80 + 'ms'; io.observe(el); });
+
+  // Request-access modal
+  (function () {
+    const modal = document.getElementById('joinModal');
+    if (!modal) return;
+    const form = document.getElementById('joinForm');
+    const success = document.getElementById('joinSuccess');
+    let lastFocus = null;
+
+    function open() {
+      lastFocus = document.activeElement;
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      const first = modal.querySelector('input, textarea');
+      if (first) setTimeout(() => first.focus(), 30);
+    }
+    function close() {
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+    }
+
+    document.querySelectorAll('[data-open-join]').forEach((el) => {
+      el.addEventListener('click', (e) => { e.preventDefault(); open(); });
+    });
+    modal.querySelectorAll('[data-close]').forEach((el) => el.addEventListener('click', close));
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('open')) close();
+    });
+    modal.addEventListener('keydown', (e) => {
+      if (e.key !== 'Tab') return;
+      const f = Array.from(modal.querySelectorAll('button, input, textarea, select, a[href]'))
+        .filter((el) => !el.disabled && el.offsetParent !== null);
+      if (!f.length) return;
+      const first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (!form.checkValidity()) { form.reportValidity(); return; }
+      form.hidden = true;
+      success.hidden = false;
+    });
+  })();
+</script>
+</body>
+</html>
