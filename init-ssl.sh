@@ -30,7 +30,7 @@
   fi
 
   echo "==> Start full stack with HTTPS"
-  docker compose up -d --build
+  docker-compose up -d --build
 
   echo ""
   echo "Done! Site is live at https://$DOMAIN"
